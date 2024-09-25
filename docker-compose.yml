@@ -2,14 +2,15 @@ version: '3.8'
 services:
   backend:
     build: ./backend
+    container_name: ${APP_ID}-backend
     ports:
-      - "3000:3000"
+      - ${NODE_APP_PORT}:${NODE_APP_PORT}
     environment:
       - PORT=3000
     volumes:
       - ./backend:/app
     depends_on:
-      - mongo
+      - mongodb
     networks:
       - app-network
 
@@ -22,10 +23,11 @@ services:
 #    networks:
 #      - app-network
 
-  mongo:
-    image: mongo
+  mongodb:
+    image: mongo:${MONGO_TAG}
+    container_name: ${APP_ID}-mongodb
     ports:
-      - "27017:27017"
+      - ${MONGO_PORT}:${MONGO_PORT}
     networks:
       - app-network
 
