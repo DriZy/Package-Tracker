@@ -4,7 +4,8 @@
     "target": "es6",
     "strict": true,
     "esModuleInterop": true,
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "typeRoots": ["./node_modules/@types", "./src/@types"]
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]

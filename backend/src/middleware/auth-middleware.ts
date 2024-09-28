@@ -1,16 +1,25 @@
 import { Request, Response, NextFunction } from 'express';
+import bcrypt from 'bcrypt';
+import dotenv from 'dotenv';
 
-export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
-    const authHeader = req.headers['authorization'];
+dotenv.config();
 
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return res.status(403).json({ message: 'Forbidden: Invalid or missing authorization header' });
+export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
+    const apiToken = req.headers['authorization'];
+
+    if (!apiToken) {
+        return res.status(401).json({ message: 'Unauthorized: Missing API token' });
     }
 
-    const token = authHeader.split(' ')[1];
-    if (token !== 'some-secret-token') {
-        return res.status(403).json({ message: 'Forbidden: Invalid token' });
-    }
+    try {
+        const isMatch = await bcrypt.compare(apiToken, process.env.API_SECRET_HASH || '');
+        
+        if (!isMatch) {
+            return res.status(401).json({ message: 'Unauthorized: Invalid API token' });
+        }
 
-    next();
+        next();
+    } catch (error) {
+        return res.status(500).json({ message: 'Internal Server Error' });
+    }
 };

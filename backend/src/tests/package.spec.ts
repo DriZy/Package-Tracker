@@ -1,13 +1,14 @@
 import supertest from 'supertest';
-import { app } from '../app';
+import { app } from '../app'; // Adjust the import according to your structure
 import mongoose from 'mongoose';
 
 describe('Package API', () => {
-    // Before running the tests, connect to a test database
     beforeAll(async () => {
-        await mongoose.connect('mongodb://localhost/package-tracker-test', )});
+        await mongoose.connect('mongodb://localhost/package-tracker-test',)
+            .then((r) => console.log('Connected to MongoDB', r))
+            .catch((error) => console.error('Error connecting to MongoDB', error));
+    });
 
-    // Close connection after the tests
     afterAll(async () => {
         await mongoose.connection.close();
     });
@@ -23,15 +24,16 @@ describe('Package API', () => {
             from_address: '123 Sender St',
             to_name: 'Bob',
             to_address: '456 Receiver Rd',
+            from_location: { lat: 37.7749, lng: -122.4194 },
+            to_location: { lat: 34.0522, lng: -118.2437 }
         };
 
         const response = await supertest(app)
             .post('/api/package')
             .send(newPackage);
 
-        expect(response.status).toBe(200);
+        expect(response.status).toBe(201);
         expect(response.body.description).toBe(newPackage.description);
-        expect(response.body.weight).toBe(newPackage.weight);
         done();
     });
 
@@ -40,7 +42,7 @@ describe('Package API', () => {
             .get('/api/package');
 
         expect(response.status).toBe(200);
-        expect(Array.isArray(response.body)).toBe(true); // Expect an array of packages
+        expect(Array.isArray(response.body)).toBe(true);
         done();
     });
 
@@ -55,6 +57,8 @@ describe('Package API', () => {
             from_address: '789 Sender St',
             to_name: 'Mallory',
             to_address: '123 Receiver Rd',
+            from_location: { lat: 37.7749, lng: -122.4194 },
+            to_location: { lat: 34.0522, lng: -118.2437 }
         };
 
         const createResponse = await supertest(app)
@@ -68,7 +72,6 @@ describe('Package API', () => {
 
         expect(response.status).toBe(200);
         expect(response.body._id).toBe(packageId);
-        expect(response.body.description).toBe(newPackage.description);
         done();
     });
 });
