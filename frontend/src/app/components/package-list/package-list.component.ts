@@ -1,12 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { PackageService } from '../../services/package.service';
+import { Package } from '../../models/package.model';
 
 @Component({
   selector: 'app-package-list',
-  standalone: true,
-  imports: [],
   templateUrl: './package-list.component.html',
-  styleUrl: './package-list.component.scss'
+  styleUrls: ['./package-list.component.scss']
 })
-export class PackageListComponent {
+export class PackageListComponent implements OnInit {
+  packages: Package[] = [];
 
+  constructor(private packageService: PackageService) {}
+
+  ngOnInit(): void {
+    this.packageService.getPackages().subscribe((data) => {
+      this.packages = data;
+    });
+  }
 }

@@ -4,26 +4,22 @@ import { Observable } from 'rxjs';
 import { Package } from '../models/package.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PackageService {
-  private apiUrl = 'http://localhost:3000/api';  // Replace with your backend API URL
+  private apiUrl = 'http://localhost:3000/api/package';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getPackages(): Observable<Package[]> {
-    return this.http.get<Package[]>(`${this.apiUrl}/packages`);
+    return this.http.get<Package[]>(this.apiUrl);
   }
 
-  getPackageById(id: string): Observable<Package> {
-    return this.http.get<Package>(`${this.apiUrl}/packages/${id}`);
+  createPackage(pkg: Package): Observable<Package> {
+    return this.http.post<Package>(this.apiUrl, pkg);
   }
 
-  createPackage(packageData: Package): Observable<Package> {
-    return this.http.post<Package>(`${this.apiUrl}/packages`, packageData);
-  }
-
-  trackDelivery(packageId: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/delivery/${packageId}`);
+  deletePackage(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

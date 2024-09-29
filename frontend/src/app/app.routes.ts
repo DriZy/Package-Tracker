@@ -1,14 +1,3 @@
-import { HttpClientModule } from '@angular/common/http';
-import {AppComponent} from "./app.component";
+import { Routes } from '@angular/router';
 
-@NgModule({
-  declarations: [
-    AppComponent,
-  ],
-  imports: [
-    HttpClientModule  // <-- Import HttpClientModule here
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
-})
-export class AppModule { }
+export const routes: Routes = [];

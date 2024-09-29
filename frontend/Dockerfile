@@ -9,7 +9,7 @@ COPY package*.json ./
 
 RUN npm install
 
-COPY ../backend/frontend .
+COPY ./frontend ./
 
 RUN ng build --prod
 
