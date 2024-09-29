@@ -4,6 +4,17 @@
     "**/*[sS]pec.ts"
   ],
   "helpers": [
+    "helpers/ts-node-helper.ts",
     "helpers/**/*.ts"
-  ]
+  ],
+  "reporters": [
+    {
+      "name": "jasmine-spec-reporter#SpecReporter",
+      "options": {
+        "displayStacktrace": "all"
+      }
+    }
+  ],
+  "stopSpecOnExpectationFailure": false,
+  "random": true
 }

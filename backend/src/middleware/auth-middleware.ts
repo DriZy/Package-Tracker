@@ -1,25 +1,32 @@
 import { Request, Response, NextFunction } from 'express';
-import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
-    const apiToken = req.headers['authorization'];
+const JWT_SECRET = process.env.JWT_SECRET || 'your_secret_key';
 
-    if (!apiToken) {
-        return res.status(401).json({ message: 'Unauthorized: Missing API token' });
+interface AuthRequest extends Request {
+    user?: string | object;
+}
+
+// Middleware to verify JWT
+export const jwtAuthMiddleware = (req: AuthRequest, res: Response, next: NextFunction) => {
+    const authHeader = req.headers['authorization'];
+    if (!authHeader) {
+        return res.status(401).json({ message: 'Unauthorized: No token provided' });
+    }
+
+    const token = authHeader.split(' ')[1]; // The format is usually 'Bearer <token>'
+    if (!token) {
+        return res.status(401).json({ message: 'Unauthorized: Invalid token format' });
     }
 
     try {
-        const isMatch = await bcrypt.compare(apiToken, process.env.API_SECRET_HASH || '');
-        
-        if (!isMatch) {
-            return res.status(401).json({ message: 'Unauthorized: Invalid API token' });
-        }
-
+        const decoded = jwt.verify(token, JWT_SECRET);
+        req.user = decoded; // Attach the decoded user info to the request
         next();
     } catch (error) {
-        return res.status(500).json({ message: 'Internal Server Error' });
+        return res.status(403).json({ message: 'Forbidden: Invalid token' });
     }
 };

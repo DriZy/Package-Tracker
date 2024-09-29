@@ -1,77 +1,76 @@
-import supertest from 'supertest';
-import { app } from '../app'; // Adjust the import according to your structure
 import mongoose from 'mongoose';
+import supertest from 'supertest';
+import app from '../app';
+import { expect } from 'chai';
+
+const request = supertest(app);
+const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017/package_tracker';
 
 describe('Package API', () => {
-    beforeAll(async () => {
-        await mongoose.connect('mongodb://localhost/package-tracker-test',)
-            .then((r) => console.log('Connected to MongoDB', r))
-            .catch((error) => console.error('Error connecting to MongoDB', error));
+    before(async () => {
+        await mongoose.connect(mongoUri);
     });
 
-    afterAll(async () => {
+    after(async () => {
         await mongoose.connection.close();
     });
 
-    it('should create a new package', async (done) => {
+    it('should create a new package', async () => {
         const newPackage = {
             description: 'Test Package',
-            weight: 500,
-            width: 20,
-            height: 15,
-            depth: 10,
-            from_name: 'Alice',
-            from_address: '123 Sender St',
-            to_name: 'Bob',
-            to_address: '456 Receiver Rd',
+            weight: 400,
+            width: 25,
+            height: 10,
+            depth: 12,
+            from_name: 'John Doe',
+            from_address: '123 Sender Ave',
             from_location: { lat: 37.7749, lng: -122.4194 },
-            to_location: { lat: 34.0522, lng: -118.2437 }
+            to_name: 'Jane Doe',
+            to_address: '789 Receiver Blvd',
+            to_location: { lat: 34.0522, lng: -118.2437 },
         };
 
-        const response = await supertest(app)
-            .post('/api/package')
-            .send(newPackage);
+        const response = await request.post('/api/package').send(newPackage);
 
-        expect(response.status).toBe(201);
-        expect(response.body.description).toBe(newPackage.description);
-        done();
+        expect(response.status).to.equal(201);
+        expect(response.body.description).to.equal(newPackage.description);
     });
 
-    it('should fetch all packages', async (done) => {
-        const response = await supertest(app)
-            .get('/api/package');
+    it('should fetch all packages', async () => {
+        const response = await request.get('/api/package');
 
-        expect(response.status).toBe(200);
-        expect(Array.isArray(response.body)).toBe(true);
-        done();
+        expect(response.status).to.equal(200);
+        expect(Array.isArray(response.body)).to.be.true;
     });
 
-    it('should fetch a package by ID', async (done) => {
-        const newPackage = {
-            description: 'Test Package 2',
-            weight: 300,
-            width: 10,
-            height: 5,
-            depth: 8,
-            from_name: 'Eve',
-            from_address: '789 Sender St',
-            to_name: 'Mallory',
-            to_address: '123 Receiver Rd',
-            from_location: { lat: 37.7749, lng: -122.4194 },
-            to_location: { lat: 34.0522, lng: -118.2437 }
+    it('should fetch a package by ID', async () => {
+        const packageId = 'some-package-id'; // Replace with an actual ID after creating a package
+
+        const response = await request.get(`/api/package/${packageId}`);
+
+        expect(response.status).to.equal(200);
+        expect(response.body._id).to.equal(packageId);
+    });
+
+    it('should update a package', async () => {
+        const packageId = 'some-package-id'; // Replace with an actual ID
+        const updatedPackage = {
+            description: 'Updated Test Package',
+            weight: 450,
         };
 
-        const createResponse = await supertest(app)
-            .post('/api/package')
-            .send(newPackage);
+        const response = await request.put(`/api/package/${packageId}`).send(updatedPackage);
 
-        const packageId = createResponse.body._id;
+        expect(response.status).to.equal(200);
+        expect(response.body.description).to.equal(updatedPackage.description);
+    });
 
-        const response = await supertest(app)
-            .get(`/api/package/${packageId}`);
+    it('should delete a package', async () => {
+        const packageId = 'some-package-id'; // Replace with an actual ID
 
-        expect(response.status).toBe(200);
-        expect(response.body._id).toBe(packageId);
-        done();
+        const response = await request.delete(`/api/package/${packageId}`);
+
+        expect(response.status).to.equal(200);
+        expect(response.body.message).to.equal('Package deleted successfully');
     });
 });

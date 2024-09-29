@@ -6,22 +6,25 @@ services:
     ports:
       - ${NODE_APP_PORT}:${NODE_APP_PORT}
     environment:
-      - PORT=3000
+      NODE_ENV: development
     volumes:
       - ./backend:/app
     depends_on:
       - mongodb
     networks:
       - app-network
+    command: npm run dev
 
-#  frontend:
-#    build: ./frontend
-#    ports:
-#      - "4200:80"
-#    depends_on:
-#      - backend
-#    networks:
-#      - app-network
+  frontend:
+    build: backend/frontend
+    volumes:
+      - ./frontend:/app
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    depends_on:
+      - backend
+    networks:
+      - app-network
 
 
   mongodb:

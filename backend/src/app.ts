@@ -1,38 +1,34 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import { Server } from 'socket.io';
-import { createServer } from 'http';
-import { PackageRouter } from './package-controller';
-import { DeliveryRouter } from './delivery-controller';
+import express, { Application, Request, Response } from 'express';
 import dotenv from 'dotenv';
-import { authMiddleware } from './middleware/auth-middleware';
+import { connectToDB } from './common/db-connection';
+import userRoutes from './routes/user-routes';
+import packageRoutes from './routes/package-routes';
+import deliveryRoutes from "./routes/delivery-routes";
 
 dotenv.config();
 
-const app = express();
-const server = createServer(app);
-const io = new Server(server);
+const app: Application = express();
+
+const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-const port = process.env.PORT || 3000;
-const mongoUri = process.env.MONGO_URI || 'mongodb://package_tracker-mongodb:27017/package_tracker';
+// Connect to the database
+connectToDB().then(r => console.log("Connected To MongoDB Successfully"));
 
-// MongoDB connection
-mongoose.connect(mongoUri).then((response) => {
-    console.log('Connected to MongoDB', response.Collection);
-}).catch((error) => { console.error('Error connecting to MongoDB', error); });
-
-app.use('/api/package', authMiddleware, PackageRouter);
-app.use('/api/delivery', authMiddleware, DeliveryRouter);
-
-app.get('/', (req, res) => {
-    res.send('API is running');
+// Define Routes
+app.get('/', (req: Request, res: Response) => {
+    res.send('Package Tracker API');
 });
 
-// Export io for WebSocket events in the controllers
-export { io, app };
+// Register Routes
+userRoutes(app);
+packageRoutes(app);
+deliveryRoutes(app);
 
-server.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+// Start server
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });
+
+export default app;
