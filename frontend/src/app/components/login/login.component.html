@@ -1,0 +1,11 @@
+<div class="login-container">
+  <h2 class="login-title">Login</h2>
+  <form>
+    <input type="text" placeholder="Username" [(ngModel)]="credentials.username" name="username" required />
+    <input type="password" placeholder="Password" [(ngModel)]="credentials.password" name="password" required />
+    <button type="submit">Login</button>
+  </form>
+  <div class="switch-link">
+    <a routerLink="/signup">Don't have an account? Register here</a>
+  </div>
+</div>

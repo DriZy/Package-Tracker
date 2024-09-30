@@ -7,7 +7,7 @@ import { Delivery } from '../models/delivery.model';
   providedIn: 'root',
 })
 export class DeliveryService {
-  private apiUrl = 'http://localhost:3000/api/delivery';
+  private apiUrl = '/api/deliveries';
 
   constructor(private http: HttpClient) {}
 
@@ -15,8 +15,14 @@ export class DeliveryService {
     return this.http.get<Delivery[]>(this.apiUrl);
   }
 
-  createDelivery(delivery: Delivery): Observable<Delivery> {
-    return this.http.post<Delivery>(this.apiUrl, delivery);
+  createDelivery(deliveryData: Delivery): Observable<Delivery> {
+    return this.http.post<Delivery>(`${this.apiUrl}/new`, deliveryData);
+  }
+  getDeliveryById(id: string): Observable<Delivery> {
+    return this.http.get<Delivery>(`${this.apiUrl}/${id}`);
+  }
+  updateDelivery(id: string, deliveryData: Delivery): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/${id}`, deliveryData);
   }
 
   deleteDelivery(id: string): Observable<void> {

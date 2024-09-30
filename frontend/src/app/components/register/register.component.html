@@ -1,0 +1,16 @@
+<div class="register-container">
+  <h2 class="register-title">Register</h2>
+  <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+    <input type="text" placeholder="Username" [(ngModel)]="newUser.username" name="username" required />
+    <input type="email" placeholder="Email" [(ngModel)]="newUser.email" name="email" required />
+    <input type="password" placeholder="Password" [(ngModel)]="newUser.password" name="password" required />
+    <input type="password" placeholder="Confirm Password" [(ngModel)]="confirmPassword" name="confirmPassword" required />
+
+    <div *ngIf="passwordMismatch" class="error-message">Passwords do not match.</div>
+
+    <button type="submit" [disabled]="!registerForm.valid || passwordMismatch">Register</button>
+  </form>
+  <div class="switch-link">
+    <a routerLink="/login">Already have an account? Login here</a>
+  </div>
+</div>

@@ -3,20 +3,26 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Package } from '../models/package.model';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class PackageService {
-  private apiUrl = 'http://localhost:3000/api/package';
+  private apiUrl = '/api/packages';
 
   constructor(private http: HttpClient) {}
+
+  createPackage(packageData: Package): Observable<Package> {
+    return this.http.post<Package>(`${this.apiUrl}/mew`, packageData);
+  }
 
   getPackages(): Observable<Package[]> {
     return this.http.get<Package[]>(this.apiUrl);
   }
 
-  createPackage(pkg: Package): Observable<Package> {
-    return this.http.post<Package>(this.apiUrl, pkg);
+  getPackageById(id: string) {
+    return this.http.get<Package>(`${this.apiUrl}/${id}`);
+  }
+
+  updatePackage(id: string, packageData: Package): Observable<Package> {
+    return this.http.put<Package>(`${this.apiUrl}/${id}`, packageData);
   }
 
   deletePackage(id: string): Observable<void> {

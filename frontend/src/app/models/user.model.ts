@@ -3,4 +3,5 @@ export interface User {
   username: string;
   password?: string;
   token?: string;
+  // role: 'admin' | 'driver' | 'customer';
 }
