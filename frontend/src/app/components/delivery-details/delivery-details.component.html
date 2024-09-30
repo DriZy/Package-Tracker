@@ -1,0 +1,24 @@
+<div class="delivery-details">
+  <h2>Delivery Details</h2>
+  <div *ngIf="delivery">
+    <h3>Delivery ID: {{ delivery.delivery_id }}</h3>
+    <p><strong>Status:</strong> {{ delivery.status }}</p>
+    <p><strong>Pickup Time:</strong> {{ delivery.pickup_time | date:'short' }}</p>
+    <p><strong>Start Time:</strong> {{ delivery.start_time | date:'short' }}</p>
+    <p><strong>End Time:</strong> {{ delivery.end_time | date:'short' }}</p>
+    <p><strong>From Location:</strong> {{ delivery.from_location.lat }}, {{ delivery.from_location.lng }}</p>
+    <p><strong>To Location:</strong> {{ delivery.to_location.lat }}, {{ delivery.to_location.lng }}</p>
+
+    <!-- You can also add a map component here to visualize the locations -->
+    <h4>From Location on Map</h4>
+<!--    <app-map [initialLocation]="delivery.from_location" [isEditable]="false"></app-map>-->
+
+<!--    <h4>To Location on Map</h4>-->
+<!--    <app-map [initialLocation]="delivery.to_location" [isEditable]="false"></app-map>-->
+
+    <button (click)="editDelivery(delivery.delivery_id)">Edit Delivery</button>
+  </div>
+  <div *ngIf="!delivery">
+    <p>No delivery details available.</p>
+  </div>
+</div>

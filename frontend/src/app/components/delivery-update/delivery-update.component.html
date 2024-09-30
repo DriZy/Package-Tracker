@@ -1,0 +1,24 @@
+<div class="delivery-update">
+  <h2>Update Delivery</h2>
+  <form (ngSubmit)="onSubmit()">
+    <label>Package ID:</label>
+    <input [(ngModel)]="delivery.package_id" name="package_id" required />
+
+    <label>Status:</label>
+    <select [(ngModel)]="delivery.status" name="status" required>
+      <option value="open">Open</option>
+      <option value="picked-up">Picked Up</option>
+      <option value="in-transit">In Transit</option>
+      <option value="delivered">Delivered</option>
+      <option value="failed">Failed</option>
+    </select>
+
+<!--    <label>From Location:</label>-->
+<!--    <app-map (locationSelected)="onLocationSelected($event, true)"></app-map>-->
+
+<!--    <label>To Location:</label>-->
+<!--    <app-map (locationSelected)="onLocationSelected($event, false)"></app-map>-->
+
+    <button type="submit">Update Delivery</button>
+  </form>
+</div>

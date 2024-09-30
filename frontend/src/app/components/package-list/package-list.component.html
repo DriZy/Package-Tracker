@@ -1,0 +1,26 @@
+<div class="package-list">
+  <h2>Packages</h2>
+  <button (click)="createPackage()" class="create-button">Create New Package</button>
+  <table>
+    <thead>
+    <tr>
+      <th>Description</th>
+      <th>From Name</th>
+      <th>To Name</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let package of packages">
+      <td>{{ package.description }}</td>
+      <td>{{ package.from_name }}</td>
+      <td>{{ package.to_name }}</td>
+      <td>
+        <button (click)="viewDetails(package.package_id)">View</button>
+        <button (click)="editPackage(package.package_id)">Edit</button>
+        <button (click)="deletePackage(package.package_id)">Delete</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,12 +1,13 @@
 import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import * as L from 'leaflet';
 import {CommonModule} from "@angular/common";
+import {HttpClientModule} from "@angular/common/http";
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, HttpClientModule],
   styleUrls: ['./map.component.scss']
 })
 export class MapComponent implements OnInit {

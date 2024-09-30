@@ -1,0 +1,24 @@
+<div class="delivery-list">
+  <h2>Deliveries</h2>
+  <button (click)="createPackage()" class="create-button">Create New Delivery</button>
+  <table>
+    <thead>
+    <tr>
+      <th>Delivery ID</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let delivery of deliveries">
+      <td>{{ delivery.delivery_id }}</td>
+      <td>{{ delivery.status }}</td>
+      <td>
+        <button (click)="viewDetails(delivery.delivery_id)">View</button>
+        <button (click)="editDelivery(delivery.delivery_id)">Edit</button>
+        <button (click)="deleteDelivery(delivery.delivery_id)">Delete</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

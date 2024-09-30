@@ -1,0 +1,33 @@
+<div class="package-update">
+  <h2>Update Package</h2>
+  <form (ngSubmit)="onSubmit()">
+    <label>Description:</label>
+    <input [(ngModel)]="package.description" name="description" required />
+
+    <label>From Name:</label>
+    <input [(ngModel)]="package.from_name" name="from_name" required />
+
+    <label>To Name:</label>
+    <input [(ngModel)]="package.to_name" name="to_name" required />
+
+    <label>Weight (grams):</label>
+    <input type="number" [(ngModel)]="package.weight" name="weight" required />
+
+    <label>Width (cm):</label>
+    <input type="number" [(ngModel)]="package.dimensions.width" name="width" />
+
+    <label>Height (cm):</label>
+    <input type="number" [(ngModel)]="package.dimensions.height" name="height" />
+
+    <label>Depth (cm):</label>
+    <input type="number" [(ngModel)]="package.dimensions.depth" name="depth" />
+
+    <label>From Location:</label>
+<!--    <app-map (locationSelected)="onLocationSelected($event, true)"></app-map>-->
+
+<!--    <label>To Location:</label>-->
+<!--    <app-map (locationSelected)="onLocationSelected($event, false)"></app-map>-->
+
+    <button type="submit" [disabled]="!package">Update Package</button>
+  </form>
+</div>

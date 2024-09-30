@@ -4,7 +4,7 @@ export interface Package {
   active_delivery_id?: string;
   description: string;
   weight: number;
-  dimensions?: {
+  dimensions: {
     width?: number;
     height?: number;
     depth?: number;

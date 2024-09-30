@@ -10,7 +10,8 @@
 
     <button type="submit" [disabled]="!registerForm.valid || passwordMismatch">Register</button>
   </form>
+
   <div class="switch-link">
-    <a routerLink="/login">Already have an account? Login here</a>
+    <a (click)="navigateToLogin()">Already have an account? Login here</a>
   </div>
 </div>
