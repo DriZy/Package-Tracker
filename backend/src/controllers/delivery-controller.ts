@@ -7,9 +7,10 @@ const store = new DeliveryStore();
 export const indexController = async (req: Request, res: Response) => {
     try {
         const deliveries = await store.index();
-        res.json(deliveries);
-    } catch (err) {
-        res.status(500).json(err);
+        res.status(200).json(deliveries);
+    } catch (err: Error | any) {
+        console.error('Error fetching deliveries:', err);
+        res.status(500).json({ message: 'Internal Server Error', error: err.message });
     }
 };
 
@@ -19,9 +20,10 @@ export const showController = async (req: Request, res: Response) => {
         if (!delivery) {
             return res.status(404).json({ message: 'Delivery not found' });
         }
-        res.json(delivery);
-    } catch (err) {
-        res.status(500).json(err);
+        res.status(200).json(delivery);
+    } catch (err: Error | any) {
+        console.error('Error fetching delivery:', err);
+        res.status(500).json({ message: 'Internal Server Error', error: err.message });
     }
 };
 
@@ -30,8 +32,9 @@ export const createController = async (req: Request, res: Response) => {
         const newDelivery = await store.create(req.body);
         io.emit('delivery_created', { event: 'delivery_created', delivery: newDelivery });
         res.status(201).json(newDelivery);
-    } catch (err) {
-        res.status(400).json(err);
+    } catch (err: Error | any) {
+        console.error('Error creating delivery:', err);
+        res.status(400).json({ message: 'Error creating delivery', error: err.message });
     }
 };
 
@@ -43,8 +46,9 @@ export const updateController = async (req: Request, res: Response) => {
         }
         io.emit('delivery_updated', { event: 'delivery_updated', delivery: updatedDelivery });
         res.status(200).json(updatedDelivery);
-    } catch (err) {
-        res.status(400).json(err);
+    } catch (err: Error | any) {
+        console.error('Error updating delivery:', err);
+        res.status(400).json({ message: 'Error updating delivery', error: err.message });
     }
 };
 
@@ -55,8 +59,9 @@ export const destroyController = async (req: Request, res: Response) => {
             return res.status(404).json({ message: 'Delivery not found' });
         }
         io.emit('delivery_deleted', { event: 'delivery_deleted', delivery_id: req.params.id });
-        res.status(200).json(deletedDelivery);
-    } catch (err) {
-        res.status(500).json(err);
+        res.status(200).json({ message: 'Delivery deleted successfully', delivery: deletedDelivery });
+    } catch (err: Error | any) {
+        console.error('Error deleting delivery:', err);
+        res.status(500).json({ message: 'Internal Server Error', error: err.message });
     }
 };

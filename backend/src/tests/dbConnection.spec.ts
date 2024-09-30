@@ -10,19 +10,14 @@ describe('Database Connection', () => {
         await disconnectFromDB();
     });
 
-    it('should connect to the database successfully', async () => {
+    test('should connect to the database successfully', async () => {
         expect(mongoose.connection.readyState).toBe(1); // Check if connected
     });
 
-    it('should fail connecting to the database with an invalid URI', async () => {
+    test('should fail connecting to the database with an invalid URI', async () => {
         const invalidUri = 'invalid-uri';
         await disconnectFromDB(); // Ensure we're disconnected before testing with an invalid URI
 
-        try {
-            await mongoose.connect(invalidUri);
-            throw new Error('Should have thrown an error');
-        } catch (err) {
-            expect(err).toBeDefined();
-        }
+        await expect(mongoose.connect(invalidUri)).rejects.toThrow(); // Check for error on invalid connection
     });
 });

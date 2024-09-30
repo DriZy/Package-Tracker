@@ -1,5 +1,5 @@
 import mongoose, { Document, Model } from 'mongoose';
-import bcrypt from 'bcrypt';
+import { compareString, hashString } from "../utils/bcrypt";
 
 export interface User extends Document {
     id?: number;
@@ -14,8 +14,7 @@ const userSchema = new mongoose.Schema<User>({
 
 userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) return next();
-    const saltRounds = process.env.BCRYPT_SALT || 10;
-    this.password = await bcrypt.hash(this.password, saltRounds);
+    this.password = await hashString(this.password);
     next();
 });
 
@@ -41,7 +40,7 @@ export class UserStore {
 
     async authenticate(username: string, password: string): Promise<User | null> {
         const user = await UserModel.findOne({ username });
-        if (user && await bcrypt.compare(password, user.password)) {
+        if (user && await compareString(password, user.password)) {
             return user;
         }
         return null;

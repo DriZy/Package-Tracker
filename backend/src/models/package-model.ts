@@ -1,11 +1,15 @@
 import mongoose, { Document, Model } from 'mongoose';
 
-export interface Package extends Document {
-    description: string;
-    weight: number;
+interface Dimensions {
     width: number;
     height: number;
     depth: number;
+}
+
+export interface Package extends Document {
+    description: string;
+    weight: number;
+    dimensions: Dimensions
     from_name: string;
     to_name: string;
     from_address: string;
@@ -16,9 +20,11 @@ export interface Package extends Document {
 const packageSchema = new mongoose.Schema<Package>({
     description: { type: String, required: true },
     weight: { type: Number, required: true },
-    width: { type: Number, required: true },
-    height: { type: Number, required: true },
-    depth: { type: Number, required: true },
+    dimensions: {
+        width: { type: Number, required: true },
+        height: { type: Number, required: true },
+        depth: { type: Number, required: true },
+    },
     from_name: { type: String, required: true },
     from_address: { type: String, required: true },
     to_name: { type: String, required: true },

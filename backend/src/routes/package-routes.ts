@@ -1,13 +1,19 @@
-import { Application } from 'express';
-import { indexController, showController, createController, updateController, destroyController } from '../controllers/package-controller';
-import { verifyAuthToken } from '../utils/auth';
+import express, {Router} from 'express';
+import {
+    createController,
+    indexController,
+    showController,
+    updateController,
+    destroyController
+} from '../controllers/package-controller';
+import {jwtAuthMiddleware} from '../middleware/auth-middleware';
 
-const packageRoutes = (app: Application) => {
-    app.get('/packages', verifyAuthToken, indexController);
-    app.get('/packages/:id', verifyAuthToken, showController);
-    app.post('/packages', verifyAuthToken, createController);
-    app.put('/packages/:id', verifyAuthToken, updateController);
-    app.delete('/packages/:id', verifyAuthToken, destroyController);
-};
+const packageRoutes = Router();
+
+packageRoutes.post('/new', jwtAuthMiddleware, createController);
+packageRoutes.get('/', jwtAuthMiddleware, indexController);
+packageRoutes.get('/:id', jwtAuthMiddleware, showController);
+packageRoutes.put('/:id', jwtAuthMiddleware, updateController);
+packageRoutes.delete('/:id', jwtAuthMiddleware, destroyController);
 
 export default packageRoutes;

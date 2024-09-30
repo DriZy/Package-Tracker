@@ -1,13 +1,20 @@
-import {Application} from 'express';
-import { indexController, showController, createController, updateController, destroyController } from '../controllers/delivery-controller';
-import { verifyAuthToken } from '../utils/auth';
+import {Router} from 'express';
+import {
+    indexController,
+    showController,
+    createController,
+    updateController,
+    destroyController
+} from '../controllers/delivery-controller';
+import {jwtAuthMiddleware} from '../middleware/auth-middleware';
 
-const deliveryRoutes = (app: Application) => {
-    app.get('/deliveries', verifyAuthToken, indexController);
-    app.get('/deliveries/:id', verifyAuthToken, showController);
-    app.post('/deliveries', verifyAuthToken, createController);
-    app.put('/deliveries/:id', verifyAuthToken, updateController);
-    app.delete('/deliveries/:id', verifyAuthToken, destroyController);
-};
+
+const deliveryRoutes = Router();
+
+deliveryRoutes.get('/', jwtAuthMiddleware, indexController);
+deliveryRoutes.get('/:id', jwtAuthMiddleware, showController);
+deliveryRoutes.post('/new', jwtAuthMiddleware, createController);
+deliveryRoutes.put('/:id', jwtAuthMiddleware, updateController);
+deliveryRoutes.delete('/:id', jwtAuthMiddleware, destroyController);
 
 export default deliveryRoutes;

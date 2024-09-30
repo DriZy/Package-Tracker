@@ -1,19 +1,19 @@
-import { Application } from "express";
+import { Router } from 'express';
 import {
     authenticateController,
     createController,
     destroyController,
     indexController,
     showController
-} from "../controllers/user-controller";
-import {verifyAuthToken} from "../utils/auth";
+} from '../controllers/user-controller';
+import { jwtAuthMiddleware } from '../middleware/auth-middleware';
 
-const userRoutes = (app: Application) => {
-    app.post('/users', createController);
-    app.get('/users', verifyAuthToken, indexController);
-    app.get('/users/:id', verifyAuthToken, showController);
-    app.delete('/users/:id', verifyAuthToken, destroyController);
-    app.post('/users/auth', authenticateController);
-};
+const userRoutes = Router();
+
+userRoutes.post('/signup', createController);
+userRoutes.post('/login', authenticateController);
+userRoutes.get('/', jwtAuthMiddleware, indexController);
+userRoutes.get('/:id', jwtAuthMiddleware, showController);
+userRoutes.delete('/:id', jwtAuthMiddleware, destroyController);
 
 export default userRoutes;

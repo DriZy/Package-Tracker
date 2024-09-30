@@ -6,50 +6,75 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const store = new UserStore();
-const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
-
+const jwtSecret = process.env.JWT_SECRET || 'YourJWTSecret';
+const saltRounds = parseInt(process.env.BCRYPT_SALT || '10', 10);
+// Get all users
 export const indexController = async (req: Request, res: Response) => {
     try {
         const users = await store.index();
-        res.json(users);
-    } catch (err) {
-        res.status(401).json(err);
+        res.status(200).json(users);
+    } catch (err: Error | any) {
+        console.error('Error fetching users:', err);
+        res.status(500).json({ message: 'Failed to fetch users', error: err.message });
     }
 };
 
 export const showController = async (req: Request, res: Response) => {
     try {
         const user = await store.show(req.params.id);
-        res.json(user);
-    } catch (err) {
-        res.status(404).json(err);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' }); // Respond with 404 Not Found
+        }
+        res.status(200).json(user);
+    } catch (err: Error | any) {
+        console.error('Error fetching user:', err);
+        res.status(500).json({ message: 'Failed to fetch user', error: err.message });
     }
 };
 
 export const createController = async (req: Request, res: Response) => {
     try {
-        //@ts-ignore
+        const { username, password } = req.body;
+
+        // @ts-ignore
         const user: User = {
-            username: req.body.username,
-            password: req.body.password,
+            username,
+            password
         };
+
         const newUser = await store.create(user);
-        const token = jwt.sign({ user: newUser }, JWT_SECRET);
-        res.json({ token });
-    } catch (err) {
-        res.status(400).json(err);
+
+        if (!jwtSecret) {
+            throw new Error("JWT_SECRET is not defined in environment variables");
+        }
+        const token = jwt.sign({ user: newUser }, jwtSecret, { expiresIn: '1h' });
+
+        res.status(201).json({ token });
+    } catch (err: any) {
+        // Handle specific error cases, if any
+        if (err.code === 11000) { // Duplicate key error in MongoDB
+            return res.status(400).json({ message: 'Username already exist' });
+        }
+
+        // Send a more generic error response
+        res.status(500).json({ message: 'Failed to create user', error: err.message });
     }
 };
 
 export const destroyController = async (req: Request, res: Response) => {
     try {
         const deletedUser = await store.delete(req.params.id);
-        res.json(deletedUser);
-    } catch (err) {
-        res.status(401).json(err);
+        if (!deletedUser) {
+            return res.status(404).json({ message: 'User not found' }); // Respond with 404 Not Found
+        }
+        res.status(200).json({ message: 'User deleted successfully', user: deletedUser }); // Respond with 200 OK
+    } catch (err: Error | any) {
+        console.error('Error deleting user:', err);
+        res.status(500).json({ message: 'Failed to delete user', error: err.message });
     }
 };
 
+// Authenticate a user
 export const authenticateController = async (req: Request, res: Response) => {
     try {
         const { username, password } = req.body;
@@ -57,9 +82,10 @@ export const authenticateController = async (req: Request, res: Response) => {
         if (!user) {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
-        const token = jwt.sign({ user }, JWT_SECRET);
-        res.json({ token });
-    } catch (error) {
-        res.status(401).json({ error });
+        const token = jwt.sign({ user }, jwtSecret);
+        res.status(200).json({ token });
+    } catch (err: Error | any) {
+        console.error('Error authenticating user:', err);
+        res.status(500).json({ message: 'Failed to authenticate user', error: err.message });
     }
 };
