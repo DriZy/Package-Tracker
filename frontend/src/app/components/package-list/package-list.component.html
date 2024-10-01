@@ -16,11 +16,23 @@
       <td>{{ package.from_name }}</td>
       <td>{{ package.to_name }}</td>
       <td>
-        <button (click)="viewDetails(package.package_id)">View</button>
-        <button (click)="editPackage(package.package_id)">Edit</button>
-        <button (click)="deletePackage(package.package_id)">Delete</button>
+        <button (click)="viewDetails(package._id!)">View</button>
+        <button (click)="editPackage(package._id!)">Edit</button>
+        <button (click)="showDeleteModal(package._id!)">Delete</button>
       </td>
     </tr>
     </tbody>
   </table>
+</div>
+
+<div class="modal" [ngClass]="{'show': showModal}">
+  <div class="modal-content">
+    <div class="modal-header">
+      Are you sure you want to delete this package?
+    </div>
+    <div class="modal-footer">
+      <button class="proceed-button" (click)="proceedDelete()">Proceed</button>
+      <button class="cancel-button" (click)="cancelDelete()">Cancel</button>
+    </div>
+  </div>
 </div>

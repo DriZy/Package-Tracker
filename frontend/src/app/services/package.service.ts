@@ -24,7 +24,7 @@ export class PackageService {
   }
 
   getPackages(): Observable<Package[]> {
-    return this.http.get<Package[]>(this.baseUrl);
+    return this.http.get<Package[]>(this.baseUrl, { headers: this.getHeaders() });
   }
 
   getPackageById(id: string) {

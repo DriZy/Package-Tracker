@@ -14,6 +14,8 @@ import {Router} from "@angular/router";
 })
 export class PackageListComponent implements OnInit {
   packages: Package[] = [];
+  showModal = false;
+  packageToDelete: string | null = null;
 
   constructor(private packageService: PackageService, private router: Router) {}
 
@@ -47,5 +49,28 @@ export class PackageListComponent implements OnInit {
 
   createPackage() {
       this.router.navigate([`/packages/new`]);
+  }
+
+  showDeleteModal(packageId: string) {
+    this.packageToDelete = packageId;
+    this.showModal = true;
+  }
+
+  proceedDelete() {
+    if (this.packageToDelete) {
+      this.packageService.deletePackage(this.packageToDelete).subscribe(() => {
+        this.packages = this.packages.filter(p => p._id !== this.packageToDelete);
+        this.packageToDelete = null;
+        this.showModal = false;
+      }, error => {
+        console.error('Error deleting package:', error);
+        this.showModal = false;
+      });
+    }
+  }
+
+  cancelDelete() {
+    this.packageToDelete = null;
+    this.showModal = false;
   }
 }

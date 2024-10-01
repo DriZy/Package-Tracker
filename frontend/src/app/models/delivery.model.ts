@@ -1,5 +1,5 @@
 export interface Delivery {
-  delivery_id: string;
+  _id?: string;
   package_id: string;
   status: 'open' | 'picked-up' | 'in-transit' | 'delivered' | 'failed';
   pickup_time?: Date;

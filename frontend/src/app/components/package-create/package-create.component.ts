@@ -16,8 +16,6 @@ import {HttpClientModule} from "@angular/common/http";
 })
 export class PackageCreateComponent {
   package: Package = {
-    active_delivery_id: '',
-    package_id: '',
     description: '',
     from_name: '',
     to_name: '',

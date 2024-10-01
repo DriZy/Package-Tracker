@@ -16,7 +16,7 @@ import {HttpClientModule} from "@angular/common/http";
 })
 export class DeliveryUpdateComponent implements OnInit {
   delivery: Delivery = {
-    delivery_id: '',
+    _id: '',
     package_id: '',
     status: 'open',
     from_location: { lat: 0, lng: 0 },
@@ -36,7 +36,7 @@ export class DeliveryUpdateComponent implements OnInit {
 
 
   onSubmit() {
-    this.deliveryService.updateDelivery(this.delivery.delivery_id, this.delivery)
+    this.deliveryService.updateDelivery(this.delivery._id!, this.delivery)
       .subscribe(() => {
         this.router.navigate(['/deliveries'])
           .then(r => console.log(r));

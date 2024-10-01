@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PackageService } from '../../services/package.service';
-import { Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { Package } from '../../models/package.model';
 import {FormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
@@ -16,7 +16,7 @@ import {HttpClientModule} from "@angular/common/http";
 
 export class PackageUpdateComponent implements OnInit {
   package: Package = {
-    package_id: '',
+    _id: '',
     description: '',
     from_name: '',
     to_name: '',
@@ -32,10 +32,10 @@ export class PackageUpdateComponent implements OnInit {
     to_location: { lat: 0, lng: 0 }
   };
 
-  constructor(private packageService: PackageService, private router: Router ) {}
+  constructor(private packageService: PackageService, private router: Router, private route: ActivatedRoute ) {}
 
   ngOnInit() {
-    const id = this.router.url.split('/')[2];
+    const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.fetchPackageDetails(id);
     }
@@ -54,7 +54,7 @@ export class PackageUpdateComponent implements OnInit {
 
 
   onSubmit() {
-    this.packageService.updatePackage(this.package.package_id, this.package)
+    this.packageService.updatePackage(this.package._id!, this.package)
       .subscribe(() => {
         this.router.navigate(['/packages'])
           .then(r => console.log(r));

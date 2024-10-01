@@ -15,7 +15,6 @@ import {HttpClientModule} from "@angular/common/http";
 })
 export class DeliveryCreateComponent {
   delivery: Delivery = {
-    delivery_id: '',
     package_id: '',
     status: 'open',
     from_location: { lat: 0, lng: 0 },

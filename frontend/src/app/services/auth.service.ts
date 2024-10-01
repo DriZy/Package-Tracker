@@ -17,12 +17,10 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) {}
 
   async signup(credentials: { username: string; password: string }) {
-    console.log('singup credentials', credentials)
     const result = await this.http.post(`${this.baseUrl}/users/signup`, credentials, {headers: this.getHeaders()})
       .subscribe((response: any) => {
-        console.log("asuidyuadiaduyatdaoddiuyiud", response);
-        // localStorage.setItem(this.tokenKey, response.token);
-        // this.router.navigate(['/packages']);
+        localStorage.setItem(this.tokenKey, response.token);
+        this.router.navigate(['/packages']);
       });
   }
 
@@ -35,8 +33,8 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-    console.log('isAuthenticated', !!localStorage.getItem(this.tokenKey))
-    return !!localStorage.getItem(this.tokenKey);
+    const token = typeof localStorage !== 'undefined' ? localStorage.getItem(this.tokenKey) : null;
+    return !!token;
   }
 
   logout() {

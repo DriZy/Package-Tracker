@@ -11,12 +11,12 @@
     </thead>
     <tbody>
     <tr *ngFor="let delivery of deliveries">
-      <td>{{ delivery.delivery_id }}</td>
+      <td>{{ delivery._id }}</td>
       <td>{{ delivery.status }}</td>
       <td>
-        <button (click)="viewDetails(delivery.delivery_id)">View</button>
-        <button (click)="editDelivery(delivery.delivery_id)">Edit</button>
-        <button (click)="deleteDelivery(delivery.delivery_id)">Delete</button>
+        <button (click)="viewDetails(delivery._id!)">View</button>
+        <button (click)="editDelivery(delivery._id!)">Edit</button>
+        <button (click)="deleteDelivery(delivery._id!)">Delete</button>
       </td>
     </tr>
     </tbody>

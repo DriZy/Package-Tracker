@@ -8,6 +8,7 @@ import {PackageListComponent} from "./components/package-list/package-list.compo
 import {DeliveryCreateComponent} from "./components/delivery-create/delivery-create.component";
 import {DeliveryUpdateComponent} from "./components/delivery-update/delivery-update.component";
 import {DeliveryListComponent} from "./components/delivery-list/delivery-list.component";
+import {DeliveryDetailsComponent} from "./components/delivery-details/delivery-details.component";
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -18,5 +19,6 @@ export const routes: Routes = [
   { path: 'packages/:id/edit', component: PackageUpdateComponent, canActivate: [AuthGuard] },
   { path: 'deliveries', component: DeliveryListComponent, canActivate: [AuthGuard] },
   { path: 'deliveries/new', component: DeliveryCreateComponent, canActivate: [AuthGuard] },
-  { path: 'deliveries/:id', component: DeliveryUpdateComponent, canActivate: [AuthGuard] },
+  { path: 'deliveries/:id/edit', component: DeliveryUpdateComponent, canActivate: [AuthGuard] },
+  { path: 'deliveries/:id/details', component: DeliveryDetailsComponent, canActivate: [AuthGuard] },
 ];

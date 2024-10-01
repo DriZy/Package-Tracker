@@ -1,7 +1,7 @@
 <div class="delivery-details">
   <h2>Delivery Details</h2>
   <div *ngIf="delivery">
-    <h3>Delivery ID: {{ delivery.delivery_id }}</h3>
+    <h3>Delivery ID: {{ delivery._id }}</h3>
     <p><strong>Status:</strong> {{ delivery.status }}</p>
     <p><strong>Pickup Time:</strong> {{ delivery.pickup_time | date:'short' }}</p>
     <p><strong>Start Time:</strong> {{ delivery.start_time | date:'short' }}</p>
@@ -16,7 +16,7 @@
 <!--    <h4>To Location on Map</h4>-->
 <!--    <app-map [initialLocation]="delivery.to_location" [isEditable]="false"></app-map>-->
 
-    <button (click)="editDelivery(delivery.delivery_id)">Edit Delivery</button>
+    <button (click)="editDelivery(delivery._id!)">Edit Delivery</button>
   </div>
   <div *ngIf="!delivery">
     <p>No delivery details available.</p>
