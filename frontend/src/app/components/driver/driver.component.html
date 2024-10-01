@@ -1,0 +1,38 @@
+<div class="driver">
+  <h2>Driver Dashboard</h2>
+
+  <div class="form">
+    <div class="input-container">
+      <label for="deliveryId">Enter Delivery ID:</label>
+      <input id="deliveryId" [(ngModel)]="deliveryId" placeholder="Delivery ID"/>
+    </div>
+    <button (click)="loadDelivery()">Load Delivery</button>
+  </div>
+
+
+  <div class="delivery-details" *ngIf="deliveryDetails">
+    <div class="text-content">
+      <h3>Delivery Details</h3>
+      <p><strong>Delivery ID:</strong> {{ deliveryDetails.delivery_id }}</p>
+      <p><strong>Package ID:</strong> {{ deliveryDetails.package_id }}</p>
+      <p><strong>Status:</strong> {{ deliveryDetails.status }}</p>
+
+      <h4>Update Status</h4>
+      <div class="status-update-section">
+        <button (click)="updateStatus('picked-up')">Picked Up</button>
+        <button (click)="updateStatus('in-transit')">In Transit</button>
+        <button (click)="updateStatus('delivered')">Delivered</button>
+        <button (click)="updateStatus('failed')">Failed</button>
+      </div>
+
+      <h4>Live Location Updates</h4>
+      <div class="location-update-section">
+        <button (click)="startLocationUpdates()">Start Location Updates</button>
+        <button (click)="stopLocationUpdates()">Stop Location Updates</button>
+      </div>
+    </div>
+    <div class="delivery-map">
+      <app-map class="map" [location]="deliveryDetails.location" (locationOutput)="onLocationSelected($event)"></app-map>
+    </div>
+  </div>
+</div>

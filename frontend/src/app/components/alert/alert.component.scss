@@ -1,0 +1,28 @@
+.alert-wrapper {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000; /* Ensure it's always on top */
+}
+
+.alert {
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  color: white;
+  opacity: 0.9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.success {
+  background-color: #4CAF50; /* Green */
+}
+
+.error {
+  background-color: #f44336; /* Red */
+}
+
+.info {
+  background-color: #2196F3; /* Blue */
+}

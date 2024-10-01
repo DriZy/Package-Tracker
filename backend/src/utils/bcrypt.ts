@@ -10,6 +10,5 @@ export const compareString = async (inputString: string, hashedString: string): 
     const hashedInput = await hashString(inputString);
     const storedBuffer = Buffer.from(hashedString, 'hex');
     const inputBuffer = Buffer.from(hashedInput, 'hex');
-    console.log(storedBuffer, inputBuffer);
     return timingSafeEqual(storedBuffer, inputBuffer);
 };

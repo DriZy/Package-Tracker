@@ -8,29 +8,31 @@ export interface Delivery extends Document {
     pickup_time?: Date;
     start_time?: Date;
     end_time?: Date;
-    location: { lat: number; lng: number };
+    location:Location;
     status: string;
 }
 
 const deliverySchema = new mongoose.Schema<Delivery>({
     delivery_id: { type: String, default: uuidv4 },
     package_id: { type: String, required: true },
-    pickup_time: { type: Date },
+    pickup_time: { type: Date, required: true },
     start_time: { type: Date },
     end_time: { type: Date },
-    location: { lat: { type: Number }, lng: { type: Number } },
+    location: { type: Object },
     status: { type: String, enum: Object.values(DeliveryStatus), default: DeliveryStatus.Open }
 });
 
 const DeliveryModel: Model<Delivery> = mongoose.model('Delivery', deliverySchema);
 
 export class DeliveryStore {
-    async index(): Promise<Delivery[]> {
-        return DeliveryModel.find();
+    async index(filters: Partial<Delivery> = {}): Promise<Delivery[]> {
+        // @ts-ignore
+        return DeliveryModel.find(filters);
     }
 
-    async show(id: string): Promise<Delivery | null> {
-        return DeliveryModel.findById(id);
+    async show(delivery_id: string): Promise<Delivery | null> {
+        console.log(delivery_id)
+        return DeliveryModel.findById(delivery_id);
     }
 
     async create(deliveryData: Delivery): Promise<Delivery> {

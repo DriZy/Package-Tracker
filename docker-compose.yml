@@ -1,7 +1,8 @@
 version: '3.8'
 services:
   backend:
-    build: ./backend
+#    build: ./backend
+    image: "package-tracker-backend"
     container_name: ${APP_ID}-backend
     ports:
       - ${NODE_APP_PORT}:${NODE_APP_PORT}
@@ -23,6 +24,8 @@ services:
 #      - ${APP_PORT}:${APP_PORT}
 #    depends_on:
 #      - backend
+#    environment:
+#      NODE_ENV: development
 #    networks:
 #      - app-network
 

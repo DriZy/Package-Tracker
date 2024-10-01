@@ -1,3 +1,11 @@
-./.dea/
-./backend/node_modules/
-./frontend/node_modules/
+.dea/
+backend/node_modules/
+frontend/node_modules/
+backend/dist/
+frontend/dist/
+.git
+.vscode
+backend/Dockerfile
+frontend/Dockerfile
+docker-compose.yml
+frontend/.angular

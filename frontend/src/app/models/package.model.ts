@@ -8,6 +8,7 @@ export interface Package {
     height?: number;
     depth?: number;
   };
+  status: string;
   from_name: string;
   from_address: string;
   from_location: { lat: number, lng: number };

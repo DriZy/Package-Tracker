@@ -13,7 +13,6 @@ interface AuthRequest extends Request {
 
 export const jwtAuthMiddleware = (req: AuthRequest, res: Response, next: NextFunction) => {
     const authHeader = req.headers['authorization'];
-    console.log(authHeader)
 
     if (!authHeader) {
         return res.status(401).json({ message: 'Unauthorized: No token provided' });

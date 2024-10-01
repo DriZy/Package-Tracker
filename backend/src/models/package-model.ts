@@ -1,9 +1,15 @@
 import mongoose, { Document, Model } from 'mongoose';
+import {DeliveryStatus, PackageStatus} from "../common/enums";
+
 
 interface Dimensions {
     width: number;
     height: number;
     depth: number;
+}
+export interface Location {
+    lat: number;
+    lng: number;
 }
 
 export interface Package extends Document {
@@ -15,21 +21,21 @@ export interface Package extends Document {
     from_address: string;
     to_address: string;
     status: string;
+    from_location: Location;
+    to_location: Location;
 }
 
 const packageSchema = new mongoose.Schema<Package>({
     description: { type: String, required: true },
     weight: { type: Number, required: true },
-    dimensions: {
-        width: { type: Number, required: true },
-        height: { type: Number, required: true },
-        depth: { type: Number, required: true },
-    },
+    dimensions: {type : Object , "default" : { width: 0, height: 0, depth: 0 }, required: true},
     from_name: { type: String, required: true },
-    from_address: { type: String, required: true },
+    from_address: { type: String, required: false },
     to_name: { type: String, required: true },
     to_address: { type: String, required: true },
-    status: { type: String, default: 'created' } // status: created, in-transit, delivered
+    status: { type: String, enum: Object.values(PackageStatus), default: PackageStatus.Created },
+    from_location: { type: Object, required: true },
+    to_location: { type: Object, required: true }
 });
 
 const PackageModel: Model<Package> = mongoose.model('Package', packageSchema);

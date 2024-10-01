@@ -1,19 +1,19 @@
 import { Request, Response } from 'express';
-import { DeliveryStore } from '../models/delivery-model';
+import {Delivery, DeliveryStore} from '../models/delivery-model';
 import io from '../app'; // WebSocket
 
 const store = new DeliveryStore();
 
 export const indexController = async (req: Request, res: Response) => {
     try {
-        const deliveries = await store.index();
+        const filters = req.query as Partial<Delivery>;
+        const deliveries = await store.index(filters);
         res.status(200).json(deliveries);
     } catch (err: Error | any) {
         console.error('Error fetching deliveries:', err);
         res.status(500).json({ message: 'Internal Server Error', error: err.message });
     }
 };
-
 export const showController = async (req: Request, res: Response) => {
     try {
         const delivery = await store.show(req.params.id);
@@ -51,6 +51,7 @@ export const updateController = async (req: Request, res: Response) => {
         res.status(400).json({ message: 'Error updating delivery', error: err.message });
     }
 };
+
 
 export const destroyController = async (req: Request, res: Response) => {
     try {

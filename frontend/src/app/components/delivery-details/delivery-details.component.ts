@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import { DeliveryService } from '../../services/delivery.service';
+import { ApiService } from '../../services/api.service';
 import { Delivery } from '../../models/delivery.model';
 import {CommonModule} from "@angular/common";
 import {HttpClientModule} from "@angular/common/http";
@@ -15,7 +15,7 @@ import {HttpClientModule} from "@angular/common/http";
 export class DeliveryDetailsComponent implements OnInit {
   delivery: Delivery | null = null;
 
-  constructor( private deliveryService: DeliveryService, private route: ActivatedRoute, private router: Router) {}
+  constructor( private ApiService: ApiService, private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
@@ -25,7 +25,7 @@ export class DeliveryDetailsComponent implements OnInit {
   }
 
   fetchDeliveryDetails(id: string) {
-    this.deliveryService.getDeliveryById(id).subscribe(
+    this.ApiService.getDeliveryById(id).subscribe(
       (data: Delivery) => {
         this.delivery = data;
       },

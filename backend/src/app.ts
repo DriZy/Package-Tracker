@@ -1,3 +1,4 @@
+import cors from 'cors';
 import express, { Application, NextFunction, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import { connectToDB } from './common/db-connection';
@@ -5,6 +6,7 @@ import userRoutes from './routes/user-routes';
 import packageRoutes from './routes/package-routes';
 import deliveryRoutes from './routes/delivery-routes';
 import requestLogger from './middleware/requestLogger';
+import {setupWebSocket} from "./sockets";
 
 dotenv.config();
 
@@ -14,6 +16,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(requestLogger);
+app.use(cors());
 
 // Connect to the database
 connectToDB()
@@ -51,8 +54,10 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 });
 
 // Start server
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+
+setupWebSocket(server);
 
 export default app;

@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { HttpClientModule } from '@angular/common/http';
-import {FormsModule} from "@angular/forms";
-import {CommonModule} from "@angular/common";
-import {Router} from "@angular/router";
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { UserRoles } from '../../common/enums'; // Import the UserRoles enum
 
 @Component({
   selector: 'app-register',
@@ -12,14 +13,14 @@ import {Router} from "@angular/router";
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
 })
-
 export class RegisterComponent {
-  newUser = { username: '', email: '', password: '' };
+  newUser = { username: '', email: '', password: '', role: UserRoles.Customer }; // Add role with default 'customer'
   confirmPassword: string = '';
   passwordMismatch: boolean = false;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  userRolesEnum = UserRoles;
 
+  constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit() {
     this.passwordMismatch = this.newUser.password !== this.confirmPassword;
@@ -28,11 +29,9 @@ export class RegisterComponent {
       return;
     }
 
-    this.authService.signup({
-      username: this.newUser.username,
-      password: this.newUser.password,
-    });
+    this.authService.signup(this.newUser);
   }
+
   navigateToLogin() {
     this.router.navigate(['/login']);
   }

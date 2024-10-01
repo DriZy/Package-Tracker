@@ -7,7 +7,7 @@
     <p><strong>Start Time:</strong> {{ delivery.start_time | date:'short' }}</p>
     <p><strong>End Time:</strong> {{ delivery.end_time | date:'short' }}</p>
     <p><strong>From Location:</strong> {{ delivery.from_location.lat }}, {{ delivery.from_location.lng }}</p>
-    <p><strong>To Location:</strong> {{ delivery.to_location.lat }}, {{ delivery.to_location.lng }}</p>
+    <p><strong>To Location:</strong> {{ delivery.location.lat }}, {{ delivery.location.lng }}</p>
 
     <!-- You can also add a map component here to visualize the locations -->
     <h4>From Location on Map</h4>

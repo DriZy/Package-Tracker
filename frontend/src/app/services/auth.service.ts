@@ -1,44 +1,58 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { environment } from '../../environments/environment'; // Adjust the path as necessary
+import {environment} from "../../environments/environment";
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private tokenKey = 'authToken';
-  private baseUrl = environment.apiBaseUrl;
-
-  private getHeaders(): HttpHeaders {
-    return new HttpHeaders({
-      'Content-Type': 'application/json', // Set Content-Type to application/json
-    });
-  }
+  private roleKey = 'userRole';
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  async signup(credentials: { username: string; password: string }) {
-    const result = await this.http.post(`${this.baseUrl}/users/signup`, credentials, {headers: this.getHeaders()})
+  signup(credentials: { username: string; password: string; role: string }) {
+    return this.http.post(`${environment.apiBaseUrl}/users/signup`, credentials)
       .subscribe((response: any) => {
-        localStorage.setItem(this.tokenKey, response.token);
-        this.router.navigate(['/packages']);
+        this.storeUserCredentials(response.token,  response.user.role);
+        this.redirectUserByRole( response.user.role);
       });
   }
 
-  login(credentials: { password: string; username: string }) {
-    return this.http.post(`${this.baseUrl}/users/login`, credentials, { headers: this.getHeaders() })
+  login(credentials: { username: string; password: string }) {
+    return this.http.post(`${environment.apiBaseUrl}/users/login`, credentials)
       .subscribe((response: any) => {
-        localStorage.setItem(this.tokenKey, response.token);
-        this.router.navigate(['/packages']);
+        this.storeUserCredentials(response.token, response.user.role);
+        this.redirectUserByRole(response.user.role);
       });
+  }
+
+  private storeUserCredentials(token: string, role: string) {
+    localStorage.setItem(this.tokenKey, token);
+    localStorage.setItem(this.roleKey, role);
+  }
+
+  // Redirect based on user role
+  private redirectUserByRole(role: string) {
+    if (role === 'admin') {
+      this.router.navigate(['/admin']);
+    } else if (role === 'driver') {
+      this.router.navigate(['/driver']);
+    } else {
+      this.router.navigate(['/tracker']);
+    }
   }
 
   isAuthenticated(): boolean {
-    const token = typeof localStorage !== 'undefined' ? localStorage.getItem(this.tokenKey) : null;
-    return !!token;
+    return !!localStorage.getItem(this.tokenKey);
+  }
+
+  getUserRole(): string | null {
+    return localStorage.getItem(this.roleKey);
   }
 
   logout() {
     localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem(this.roleKey);
     this.router.navigate(['/login']);
   }
 }

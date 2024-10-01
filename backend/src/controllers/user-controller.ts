@@ -34,12 +34,14 @@ export const showController = async (req: Request, res: Response) => {
 
 export const createController = async (req: Request, res: Response) => {
     try {
-        const { username, password } = req.body;
+        const { username, password, role, email } = req.body;
 
         // @ts-ignore
         const user: User = {
             username,
-            password
+            password,
+            role,
+            email
         };
 
         const newUser = await store.create(user);
@@ -48,15 +50,11 @@ export const createController = async (req: Request, res: Response) => {
             throw new Error("JWT_SECRET is not defined in environment variables");
         }
         const token = jwt.sign({ user: newUser }, jwtSecret, { expiresIn: '1h' });
-
-        res.status(201).json({ token });
+        res.status(201).json({ user: newUser, token });
     } catch (err: any) {
-        // Handle specific error cases, if any
-        if (err.code === 11000) { // Duplicate key error in MongoDB
+        if (err.code === 11000) {
             return res.status(400).json({ message: 'Username already exist' });
         }
-
-        // Send a more generic error response
         res.status(500).json({ message: 'Failed to create user', error: err.message });
     }
 };
@@ -74,7 +72,6 @@ export const destroyController = async (req: Request, res: Response) => {
     }
 };
 
-// Authenticate a user
 export const authenticateController = async (req: Request, res: Response) => {
     try {
         const { username, password } = req.body;
@@ -83,7 +80,7 @@ export const authenticateController = async (req: Request, res: Response) => {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
         const token = jwt.sign({ user }, jwtSecret);
-        res.status(200).json({ token });
+        res.status(200).json({ user, token });
     } catch (err: Error | any) {
         console.error('Error authenticating user:', err);
         res.status(500).json({ message: 'Failed to authenticate user', error: err.message });

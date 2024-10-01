@@ -3,6 +3,12 @@
   <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
     <input type="text" placeholder="Username" [(ngModel)]="newUser.username" name="username" required />
     <input type="email" placeholder="Email" [(ngModel)]="newUser.email" name="email" required />
+    <label for="role">Role:</label>
+    <select [(ngModel)]="newUser.role" name="role" id="role">
+      <option *ngFor="let role of userRolesEnum | keyvalue" [value]="role.value">
+        {{ role.value | titlecase }}
+      </option>
+    </select>
     <input type="password" placeholder="Password" [(ngModel)]="newUser.password" name="password" required />
     <input type="password" placeholder="Confirm Password" [(ngModel)]="confirmPassword" name="confirmPassword" required />
 

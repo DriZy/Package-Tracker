@@ -1,15 +1,10 @@
 import supertest from 'supertest';
 import app from '../app';
-import {connectToDB, disconnectFromDB} from "../common/db-connection"; // Ensure this path is correct
 
 const request = supertest(app);
 let token: string = process.env.AUTH_TOKEN as string;
 let deliveryId = '';
 describe('deliveries API', () => {
-    // beforeAll(async () => {
-    //     await connectToDB();
-    // });
-    // afterAll(async () => { await disconnectFromDB(); });
     test('should create a new deliveries', async () => {
         const newdeliveries = {
             package_id: '66f9e18a376d8ed59ea25846', // Ensure this package ID exists

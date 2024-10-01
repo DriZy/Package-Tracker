@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DeliveryService } from '../../services/delivery.service';
+import { ApiService } from '../../services/api.service';
 import { Delivery } from '../../models/delivery.model';
 import {CommonModule} from "@angular/common";
 import {HttpClientModule} from "@angular/common/http";
@@ -15,14 +15,14 @@ import {Router} from "@angular/router";
 export class DeliveryListComponent implements OnInit {
   deliveries: Delivery[] = [];
 
-  constructor(private deliveryService: DeliveryService, private router: Router) {}
+  constructor(private ApiService: ApiService, private router: Router) {}
 
   ngOnInit() {
     this.loadDeliveries();
   }
 
   loadDeliveries() {
-    this.deliveryService.getDeliveries()
+    this.apiService.getDeliveries()
       .subscribe((data) => {
         this.deliveries = data;
         this.router.navigate(['/deliveries'])
@@ -31,12 +31,11 @@ export class DeliveryListComponent implements OnInit {
   }
 
   deleteDelivery(id: string) {
-    this.deliveryService.deleteDelivery(id)
+    this.apiService.deleteDelivery(id)
       .subscribe(() => {
       this.loadDeliveries(); // Reload deliveries after deletion
     });
   }
-
 
   viewDetails(id: string) {
     this.router.navigate([`/deliveries/${id}/details`]);

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PackageService } from '../../services/package.service';
+import { ApiService } from '../../services/api.service';
 import { Package } from '../../models/package.model';
 import {CommonModule} from "@angular/common";
 import {HttpClientModule} from "@angular/common/http";
@@ -17,14 +17,14 @@ export class PackageListComponent implements OnInit {
   showModal = false;
   packageToDelete: string | null = null;
 
-  constructor(private packageService: PackageService, private router: Router) {}
+  constructor(private ApiService: ApiService, private router: Router) {}
 
   ngOnInit() {
     this.loadPackages();
   }
 
   loadPackages() {
-    this.packageService.getPackages()
+    this.ApiService.getPackages()
       .subscribe((data) => {
         this.packages = data;
         this.router.navigate(['/packages'])
@@ -33,7 +33,7 @@ export class PackageListComponent implements OnInit {
   }
 
   deletePackage(id: string) {
-    this.packageService.deletePackage(id)
+    this.ApiService.deletePackage(id)
       .subscribe(() => {
       this.loadPackages(); // Reload packages after deletion
     });
@@ -58,7 +58,7 @@ export class PackageListComponent implements OnInit {
 
   proceedDelete() {
     if (this.packageToDelete) {
-      this.packageService.deletePackage(this.packageToDelete).subscribe(() => {
+      this.ApiService.deletePackage(this.packageToDelete).subscribe(() => {
         this.packages = this.packages.filter(p => p._id !== this.packageToDelete);
         this.packageToDelete = null;
         this.showModal = false;
