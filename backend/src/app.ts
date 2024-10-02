@@ -33,8 +33,8 @@ app.get('/', (req: Request, res: Response) => {
 
 // Register Routes
 app.use('/api/users', userRoutes);
-app.use('/api/packages', packageRoutes);
-app.use('/api/deliveries', deliveryRoutes);
+app.use('/api/package', packageRoutes);
+app.use('/api/delivery', deliveryRoutes);
 
 // Global error handler
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {

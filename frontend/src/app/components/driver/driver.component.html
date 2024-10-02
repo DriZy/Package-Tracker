@@ -13,12 +13,7 @@
   <!-- Delivery Details -->
   <div class="delivery-details" *ngIf="deliveryDetails">
     <div class="text-content">
-      <h3>Delivery Details</h3>
-      <p><strong>Delivery ID:</strong> {{ deliveryDetails.delivery_id }}</p>
-      <p><strong>Package ID:</strong> {{ deliveryDetails.package_id }}</p>
-      <p><strong>Status:</strong> {{ deliveryDetails.status }}</p>
 
-      <!-- Package Details (Assuming package details are fetched with the delivery) -->
       <div *ngIf="packageDetails">
         <h4>Package Details</h4>
         <p><strong>Description:</strong> {{ packageDetails.description }}</p>
@@ -27,6 +22,11 @@
         <p><strong>From:</strong> {{ packageDetails.from_name }}</p>
         <p><strong>To:</strong> {{ packageDetails.to_name }}</p>
       </div>
+
+      <h3>Delivery Details</h3>
+      <p><strong>Delivery ID:</strong> {{ deliveryDetails.delivery_id }}</p>
+      <p><strong>Package ID:</strong> {{ deliveryDetails.package_id }}</p>
+      <p><strong>Status:</strong> {{ deliveryDetails.status }}</p>
 
     </div>
 

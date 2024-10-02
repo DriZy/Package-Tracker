@@ -24,7 +24,7 @@ export class ApiService {
   }
 
   createPackage(packageData: Package): Observable<Package> {
-    return this.http.post<Package>(`${this.apiUrl}/packages/new`, packageData, {headers: this.getHeaders()});
+    return this.http.post<Package>(`${this.apiUrl}/package/new`, packageData, {headers: this.getHeaders()});
   }
 
   getPackages(queryParams: Record<string, any> | null = null): Observable<Package[]> {
@@ -38,48 +38,48 @@ export class ApiService {
       });
     }
 
-    return this.http.get<Package[]>(`${this.apiUrl}/packages`, {headers: this.getHeaders(), params});
+    return this.http.get<Package[]>(`${this.apiUrl}/package`, {headers: this.getHeaders(), params});
   }
 
   getPackageById(id: string) {
-    return this.http.get<Package>(`${this.apiUrl}/packages/${id}`, {headers: this.getHeaders()});
+    return this.http.get<Package>(`${this.apiUrl}/package/${id}`, {headers: this.getHeaders()});
   }
 
   updatePackage(id: string, packageData: Package): Observable<Package> {
-    return this.http.put<Package>(`${this.apiUrl}/packages/${id}`, packageData, {headers: this.getHeaders()});
+    return this.http.put<Package>(`${this.apiUrl}/package/${id}`, packageData, {headers: this.getHeaders()});
   }
 
   deletePackage(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/packages/${id}`, {headers: this.getHeaders()});
+    return this.http.delete<void>(`${this.apiUrl}/package/${id}`, {headers: this.getHeaders()});
   }
 
   getDeliveries(queryParams: Record<string, any> | null = null): Observable<Delivery[]> {
     let params = new HttpParams();
     if (queryParams) {
       Object.keys(queryParams).forEach(key => {
-        const value = queryParams[key]; // Safely access the value
+        const value = queryParams[key];
         if (value !== null && value !== undefined) {
-          params = params.append(key, value.toString()); // Ensure it's converted to string
+          params = params.append(key, value.toString());
         }
       });
     }
 
-    return this.http.get<Delivery[]>(`${this.apiUrl}/deliveries`, {headers: this.getHeaders(), params});
+    return this.http.get<Delivery[]>(`${this.apiUrl}/delivery`, {headers: this.getHeaders(), params});
   }
 
   createDelivery(deliveryData: Delivery): Observable<Delivery> {
-    return this.http.post<Delivery>(`${this.apiUrl}/deliveries/new`, deliveryData, {headers: this.getHeaders()});
+    return this.http.post<Delivery>(`${this.apiUrl}/delivery/new`, deliveryData, {headers: this.getHeaders()});
   }
 
   getDeliveryById(id: string): Observable<Delivery> {
-    return this.http.get<Delivery>(`${this.apiUrl}/deliveries/${id}`, {headers: this.getHeaders()});
+    return this.http.get<Delivery>(`${this.apiUrl}/delivery/${id}`, {headers: this.getHeaders()});
   }
 
   updateDelivery(id: string, deliveryData: Delivery): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}/deliveries/${id}`, deliveryData, {headers: this.getHeaders()});
+    return this.http.put<void>(`${this.apiUrl}/delivery/${id}`, deliveryData, {headers: this.getHeaders()});
   }
 
   deleteDelivery(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/deliveries/${id}`, {headers: this.getHeaders()});
+    return this.http.delete<void>(`${this.apiUrl}/delivery/${id}`, {headers: this.getHeaders()});
   }
 }
