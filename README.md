@@ -5,18 +5,8 @@ A MEAN stack-based package tracking web application with real-time updates, user
 
 1. [Backend](#backend)
 2. [Frontend](#frontend)
-2. [Features](#features)
 2. [Technologies Used](#technologies-used)
 3. [Getting Started](#getting-started)
-4. [Project Structure](#project-structure)
-5. [Setup and Installation](#setup-and-installation)
-6. [Running the Application](#running-the-application)
-7. [API Integration](#api-integration)
-8. [WebSocket Integration](#websocket-integration)
-9. [Usage](#usage)
-10. [Development Guidelines](#development-guidelines)
-11. [Contributing](#contributing)
-12. [License](#license)
 
 ## Backend
 
