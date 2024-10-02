@@ -1,125 +1,108 @@
 # Package-Tracker
+![Package Tracker Screenshot](./package-tracker.png)
+
 A MEAN stack-based package tracking web application with real-time updates, user roles (customer, driver, admin), and REST APIs, utilizing Docker for containerization and Jasmine for back-end testing.
 
-## Table of Contents
-
-1. [Backend](#backend)
-2. [Frontend](#frontend)
-2. [Technologies Used](#technologies-used)
-3. [Getting Started](#getting-started)
-
-
-
-## Frontend
-
-### Angular Delivery Tracking System
-
-This project is an **Angular 18** application that tracks deliveries for drivers. It features real-time updates using **WebSockets**, role-based routing for drivers, and an admin dashboard for managing packages and deliveries. The app dynamically updates delivery statuses and logs timestamp events for critical actions like `Picked Up`, `In Transit`, and `Delivered`.
+```
+package-tracking/
+│
+├── backend/                 # Backend (API, WebSocket server, etc.)
+│   └── README.md            # Instructions for running the backend
+│
+├── frontend/                # Frontend (Angular app)
+│   └── README.md            # Instructions for running the frontend
+│
+├── docker-compose.yml       # Docker Compose configuration to run both backend and frontend
+└── README.md                # This file
+```
 
 
-### Features
+## Running Both Projects Simultaneously with Docker
 
-- **Role-based Authentication**: Driver, Admin, and Customer roles with different views and functionalities.
-- **Real-time Delivery Status Updates**: Live tracking using WebSockets for location and status changes.
-- **Delivery Status Management**: Change delivery statuses (`Picked Up`, `In Transit`, `Delivered`, `Failed`) with timestamps.
-- **Package Management**: Admins can create, edit, and delete packages and deliveries.
-- **Geolocation**: Use browser-based geolocation to track driver movements.
-- **Responsive UI**: Built with SCSS for responsive and clean UI.
+To simplify running both the **frontend** and **backend**, Docker and Docker Compose are used to build and manage both applications in one command.
 
-### Getting Started
+### Prerequisites
 
-#### Prerequisites
+- [Docker](https://www.docker.com/get-started) >= 20.x
+- [Docker Compose](https://docs.docker.com/compose/) >= 1.29.x
 
-Make sure you have the following installed:
+### Steps to Run
 
-- **Node.js** (>= v16)
-- **npm** (>= v7)
-- **Angular CLI** (for development purposes)
-- **Docker** (for production and containerization)
-- **Backend API** for handling deliveries (can be built with Node.js, Firebase, or other backend solutions)
+1. **Clone the Repository**:
 
-
-## Setup and Installation
-
-1. **Clone the repository**:
-
-   ```
-   git clone https://github.com/DriZy/Package-Tracker.git
-   cd frontend
+    ```bash
+    git clone https://github.com/DriZy/Package-Tracker.git
+    cd cd Package-Tracking
     ```
-2. **Install dependencies:**:
 
-   ```
-   npm install
-   ```
-   
-3. **Set up environment variables**:
+2. **Create Environment Variables**:
+   - Create a `.env` file in the `backend` directory and add the following environment variables for MongoDB, JWT secret, and other configurations:
 
-   Modify the environment variables in the `frontend/src/environment.ts` file and add the following environment variables:
+   Backend `.env` file:
 
-   ```
-   API_URL=http://localhost:3000/api
-   WEBSOCKET_URL=ws://localhost:3000
+    ```bash
+    MONGO_URI=mongodb://mongo:27017/package_tracker
+    JWT_SECRET=your_jwt_secret
+    BCRYPT_SALT=10
+    PORT=3000
     ```
-4. **Start the development server**:
-   ```
-   npm start
-   ```
-5. **Build the production app**:
-   ```
-    npm run build
+
+   Frontend `.env` file (if required):
+
+   Add any necessary environment variables for the frontend (usually Angular handles configurations with environment files inside the project).
+
+3. **Run Both Projects with Docker Compose**:
+
+   Simply use Docker Compose to build and run both the backend and frontend:
+
+    ```bash
+    docker compose up --build
     ```
-6. **Docker Setup**:
-7. **Build the Docker image**:
-   ```
-   docker build -t image_name .
-   ```
-8. **Run the container**:
-   ```
-    docker run -p 4200 image_name
+
+   This will build the Docker images for both the backend and frontend, start the containers, and link them together along with MongoDB.
+
+4. **Access the Applications**:
+   - **Backend API** will be available at: `http://localhost:3000`
+   - **Frontend Application** will be available at: `http://localhost:4200`
+
+5. **Shut Down the Containers**:
+
+   To stop the containers and remove them, run:
+
+    ```bash
+    docker compose down
     ```
-The app will now be available at http://localhost:4200.
 
-**Production Build**:
+## Pull Pre-built Docker Images from Docker Hub
 
-To create a production build, run:
+If you don’t want to build the Docker images locally, you can pull the pre-built images directly from Docker Hub (assuming you have pushed the images there).
 
-```
-cd frontend
-npm run build
-```
-The build artifacts will be stored in the dist/ directory. You can deploy these files using any static hosting service (e.g., Firebase Hosting, Netlify).
+1. Modify the `docker-compose.yml` to reference the existing images from Docker Hub.
 
-**Docker Setup:**
+Example for backend and frontend images in Docker Hub:
 
-To run the application in Docker:
+```yaml
+services:
+  backend:
+    image: tabiidris/package-tracker-backend:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/package_tracker
+      - JWT_SECRET=your_jwt_secret
+      - BCRYPT_SALT=10
+      - PORT=3000
+    depends_on:
+      - mongo
 
-Build the Docker image:
+  frontend:
+    image: tabiidris/package-tracking-frontend:latest
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
 
-```
-docker build -t image_name .
-```
-Run the container:
-
-```
-docker run -p 8080:80 image_name
-```
-The app will now be available at http://localhost:8080.
-
-## Project Structure
-The project is structured as follows:
-
-## Technologies Used
-- **Node.js:** Server-side JavaScript runtime.
-- **Express.js:** Web framework for building the REST API.
-- **MongoDB:** NoSQL database for storing packages and deliveries.
-- **JWT:** Authentication and role-based authorization.
-- **WebSockets:** Real-time communication for location and status updates.
-- **TypeScript:** Strong typing for Node.js and JavaScript.
-- **Jest:** Testing framework.
-- **Docker:** Containerization for easy deployment and testing.
-- **Angular 18 (Standalone Components)**: Modern Angular framework with standalone component architecture.
-- **WebSockets**: Real-time updates for delivery tracking.
-- **Leaflet.js**: Interactive maps for delivery locations.
-- **SCSS**: Styling with modern CSS features.
-- **RxJS**: Reactive programming for handling WebSocket events.
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"

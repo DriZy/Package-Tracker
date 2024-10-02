@@ -8,7 +8,7 @@ To run the backend with **Docker**, follow these steps:
 1. Clone the repository:
     ```bash
     git clone https://github.com/your-username/package-tracking-backend.git
-    cd package-tracking-backend
+    cd backend
     ```
 
 2. Ensure you have Docker and Docker Compose installed.

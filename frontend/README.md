@@ -1,5 +1,7 @@
 # Package Tracker Frontend
 
+![Package Tracker Screenshot](../package-tracker.png)
+
 This is the frontend of the **Package Tracker** application, built with Angular 18. The application allows users to manage and track deliveries and packages.
 
 ## Table of Contents
