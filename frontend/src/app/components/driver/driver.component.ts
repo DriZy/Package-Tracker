@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { MapComponent } from '../map/map.component';
 import {DeliveryStatus} from "../../common/enums";
+import {Delivery} from "../../models/delivery.model";
 
 @Component({
   selector: 'app-driver',
@@ -56,20 +57,19 @@ export class DriverComponent implements OnInit {
         if (!this.deliveryDetails.location) {
           this.deliveryDetails.location = this.defaultLocation; // Set default location if undefined or null
         }
-        // Fetch package details by package ID
+        this.updateButtonStatus(data)
         this.apiService.getPackageById(this.deliveryDetails.package_id).subscribe(
           (packageData) => {
             this.packageDetails = packageData; // Store the package details
           },
           (error) => console.error('Error fetching package details:', error)
         );
-        this.updateButtonStatus
       },
       (error) => console.error('Error fetching delivery:', error)
     );
   }
 
-  updateButtonStatus() {
+  updateButtonStatus(data: Delivery) {
     // Reset button statuses
     this.buttonStatus = {
       pickedUp: false,
@@ -77,17 +77,16 @@ export class DriverComponent implements OnInit {
       delivered: false,
       failed: false,
     };
-
-    switch (this.deliveryDetails.status) {
+    switch (data.status) {
       case DeliveryStatus.Open:
-        this.buttonStatus.pickedUp = true; // Enable "Picked Up" button
+        this.buttonStatus.pickedUp = true;
         break;
       case DeliveryStatus.PickedUp:
-        this.buttonStatus.inTransit = true; // Enable "In Transit" button
+        this.buttonStatus.inTransit = true;
         break;
       case DeliveryStatus.InTransit:
-        this.buttonStatus.delivered = true; // Enable "Delivered" button
-        this.buttonStatus.failed = true; // Enable "Failed" button
+        this.buttonStatus.delivered = true;
+        this.buttonStatus.failed = true;
         break;
       default:
         break;
@@ -110,9 +109,9 @@ export class DriverComponent implements OnInit {
 
     this.apiService.updateDelivery(this.deliveryId, updatedDelivery).subscribe(
       () => {
-        this.websocketService.sendMessage({ delivery_id: this.deliveryId, status: newStatus, ...updatedDelivery });
+        this.websocketService.sendMessage({ delivery_id: this.deliveryId, status: newStatus });
         this.deliveryDetails.status = newStatus;
-        this.updateButtonStatus();
+        this.updateButtonStatus(updatedDelivery);
       },
       (error) => console.error('Error updating delivery status:', error)
     );

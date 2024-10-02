@@ -4,11 +4,12 @@ import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {CommonModule} from "@angular/common";
 import {Router} from "@angular/router";
+import {ModalComponent} from "../modal/modal.component";
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, FormsModule],
+  imports: [CommonModule, HttpClientModule, FormsModule, ModalComponent],
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss']
 })
@@ -16,8 +17,7 @@ export class AdminComponent implements OnInit {
   packages: any[] = [];
   deliveries: any[] = [];
   showModal = false;
-  packageToDelete: string | null = null;
-  deliveryToDelete: string | null = null;
+  itemToDelete: { type: 'package' | 'delivery', id: string } | null = null;
 
   constructor(private apiService: ApiService, private router: Router) {}
 
@@ -51,39 +51,32 @@ export class AdminComponent implements OnInit {
   }
 
 
-  showDeleteModal(id:{package_id: string, delivery_id: string}) {
-    this.packageToDelete = id.package_id;
+  showDeleteModal(itemId: string, type: 'package' | 'delivery') {
     this.showModal = true;
+    this.itemToDelete = { type, id: itemId };
   }
 
   proceedDelete() {
-    if (this.packageToDelete) {
-      this.apiService.deletePackage(this.packageToDelete).subscribe(() => {
-        this.packages = this.packages.filter(pkg => pkg.package_id !== this.packageToDelete);
-        this.packageToDelete = null;
-        this.showModal = false;
-      }, error => {
-        console.error('Error deleting package:', error);
-        this.showModal = false;
-      });
-    }else if(this.deliveryToDelete) {
-
-      this.apiService.deleteDelivery(this.deliveryToDelete).subscribe(() => {
-        this.deliveries = this.deliveries.filter(del => del.delivery_id !== this.deliveryToDelete);
-        this.deliveryToDelete = null;
-        this.showModal = false;
-      }, error => {
-        console.error('Error deleting delivery:', error);
-        this.showModal = false;
-      });
-    }else {
-      console.log('No package or delivery to delete');
+    if (this.itemToDelete) {
+      if (this.itemToDelete.type === 'package') {
+        this.deletePackage(this.itemToDelete.id);
+      } else if (this.itemToDelete.type === 'delivery') {
+        this.deleteDelivery(this.itemToDelete.id);
+      }
     }
+    this.cancelDelete();
+  }
+
+  deletePackage(packageId: string) {
+    this.packages = this.packages.filter(pkg => pkg._id !== packageId);
+  }
+
+  deleteDelivery(deliveryId: string) {
+    this.deliveries = this.deliveries.filter(del => del.delivery_id !== deliveryId);
   }
 
   cancelDelete() {
-    this.packageToDelete = null;
-    this.deliveryToDelete = null;
     this.showModal = false;
+    this.itemToDelete = null;
   }
 }

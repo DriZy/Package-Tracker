@@ -18,6 +18,7 @@ import {Package} from "../../models/package.model";
 })
 export class DeliveryComponent implements OnInit {
   delivery: Delivery = {
+    delivery_id: '',
     pickup_time: new Date(),
     start_time: new Date(),
     end_time: new Date(),
@@ -53,7 +54,7 @@ export class DeliveryComponent implements OnInit {
 
   onSubmit(): void {
     if (this.isEditMode) {
-      this.apiService.updateDelivery(this.delivery.package_id, this.delivery)
+      this.apiService.updateDelivery(this.delivery.delivery_id, this.delivery)
         .subscribe(() => {
           this.router.navigate(['/admin'])
             .then(r => console.log('Delivery updated successfully!'));
@@ -69,7 +70,6 @@ export class DeliveryComponent implements OnInit {
   }
 
   searchPackages(searchTerm: string) {
-    console.log("My search term is: ", searchTerm);
     this.apiService.getPackages({
       description: searchTerm,
       status: searchTerm,

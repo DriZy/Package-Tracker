@@ -18,7 +18,7 @@ export class WebsocketService {
   sendMessage(msg: any) {
     if (this.socket$) {
       this.socket$.next(msg);
-      this.alertService.success(msg);
+      this.alertService.success("Message sent via websocket");
     }else {
       this.alertService.error('No WebSocket connection');
     }

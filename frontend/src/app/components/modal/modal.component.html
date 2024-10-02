@@ -1,0 +1,18 @@
+<div class="modal" [ngClass]="{'show': showModal}">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>{{ title }}</h3>
+      <button class="close-button" (click)="onCancel()">&times;</button>
+    </div>
+
+    <!-- Dynamic content will be injected here -->
+    <div class="modal-body">
+      <ng-content></ng-content>
+    </div>
+
+    <div class="modal-footer">
+      <button class="proceed-button" (click)="onProceed()">Proceed</button>
+      <button class="cancel-button" (click)="onCancel()">Cancel</button>
+    </div>
+  </div>
+</div>

@@ -8,22 +8,22 @@
       <label>To Name:</label>
       <input [(ngModel)]="package.to_name" name="to_name" required />
 
-      <label>Weight (kgs):</label>
+      <label>Weight (grams):</label>
       <input type="number" [(ngModel)]="package.weight" name="weight" required />
 
       <div class="dimension-fields">
         <div>
-          <label>Width (m):</label>
+          <label>Width (cm):</label>
           <input type="number" [(ngModel)]="package.dimensions.width" name="width" />
         </div>
 
         <div>
-          <label>Height (m):</label>
+          <label>Height (cm):</label>
           <input type="number" [(ngModel)]="package.dimensions.height" name="height" />
         </div>
 
         <div>
-          <label>Depth (m):</label>
+          <label>Depth (cm):</label>
           <input type="number" [(ngModel)]="package.dimensions.depth" name="depth" />
         </div>
       </div>

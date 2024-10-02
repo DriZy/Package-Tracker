@@ -44,27 +44,11 @@ export class DeliveryStore {
     }
 
     async update(id: string, deliveryData: Partial<Delivery>): Promise<Delivery | null> {
-        console.log("Update called with ID:", id);
-
-        let updatedDelivery: Delivery | null = null;
-
         if (mongoose.isValidObjectId(id)) {
-            // Update by _id if it's a valid ObjectId
-            console.log("Updating by _id:", id);
-            updatedDelivery = await DeliveryModel.findByIdAndUpdate(id, deliveryData, { new: true });
+            return DeliveryModel.findByIdAndUpdate(id, deliveryData, { new: true });
         } else {
-            // Update by delivery_id if it's not an ObjectId
-            console.log("Updating by delivery_id:", id);
-            updatedDelivery = await DeliveryModel.findOneAndUpdate({ delivery_id: id }, deliveryData, { new: true });
+            return DeliveryModel.findOneAndUpdate({ delivery_id: id }, deliveryData, { new: true });
         }
-
-        if (!updatedDelivery) {
-            console.log("No delivery found with the provided ID.");
-            return null; // Return null to indicate no document was found
-        }
-
-        console.log("Delivery successfully updated:", updatedDelivery);
-        return updatedDelivery;
     }
 
     async delete(id: string): Promise<Delivery | null> {

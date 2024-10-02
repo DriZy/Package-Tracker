@@ -1,5 +1,23 @@
 # Package-Tracker
 A MEAN stack-based package tracking web application with real-time updates, user roles (customer, driver, admin), and REST APIs, utilizing Docker for containerization and Jasmine for back-end testing.
+
+## Table of Contents
+
+1. [Backend](#backend)
+2. [Frontend](#frontend)
+2. [Features](#features)
+2. [Technologies Used](#technologies-used)
+3. [Getting Started](#getting-started)
+4. [Project Structure](#project-structure)
+5. [Setup and Installation](#setup-and-installation)
+6. [Running the Application](#running-the-application)
+7. [API Integration](#api-integration)
+8. [WebSocket Integration](#websocket-integration)
+9. [Usage](#usage)
+10. [Development Guidelines](#development-guidelines)
+11. [Contributing](#contributing)
+12. [License](#license)
+
 ## Backend
 
 This project implements the backend for a Package Tracking web application using the **MEAN stack (MongoDB, Express, Angular, Node.js)**. It handles package and delivery management via a **REST API**, supports **real-time updates** via **WebSockets**, and provides **JWT-based authentication** for different roles (Customer, Driver, Admin).
@@ -32,8 +50,8 @@ This project implements the backend for a Package Tracking web application using
 1. Clone the repository:
 
    ```
-   git clone https://github.com/your-username/package-tracking-backend.git
-   cd package-tracking-backend
+   git clone https://github.com/DriZy/Package-Tracker.git
+   cd backend
    
 2. Install the dependencies:
 
@@ -118,26 +136,12 @@ Access the app at
 
 ## Frontend
 
-# Angular Delivery Tracking System
+### Angular Delivery Tracking System
 
 This project is an **Angular 18** application that tracks deliveries for drivers. It features real-time updates using **WebSockets**, role-based routing for drivers, and an admin dashboard for managing packages and deliveries. The app dynamically updates delivery statuses and logs timestamp events for critical actions like `Picked Up`, `In Transit`, and `Delivered`.
 
-## Table of Contents
 
-1. [Features](#features)
-2. [Technologies Used](#technologies-used)
-3. [Getting Started](#getting-started)
-4. [Project Structure](#project-structure)
-5. [Setup and Installation](#setup-and-installation)
-6. [Running the Application](#running-the-application)
-7. [API Integration](#api-integration)
-8. [WebSocket Integration](#websocket-integration)
-9. [Usage](#usage)
-10. [Development Guidelines](#development-guidelines)
-11. [Contributing](#contributing)
-12. [License](#license)
-
-## Features
+### Features
 
 - **Role-based Authentication**: Driver, Admin, and Customer roles with different views and functionalities.
 - **Real-time Delivery Status Updates**: Live tracking using WebSockets for location and status changes.
@@ -146,12 +150,9 @@ This project is an **Angular 18** application that tracks deliveries for drivers
 - **Geolocation**: Use browser-based geolocation to track driver movements.
 - **Responsive UI**: Built with SCSS for responsive and clean UI.
 
-## Technologies Used
+### Getting Started
 
-
-## Getting Started
-
-### Prerequisites
+#### Prerequisites
 
 Make sure you have the following installed:
 
@@ -161,11 +162,75 @@ Make sure you have the following installed:
 - **Docker** (for production and containerization)
 - **Backend API** for handling deliveries (can be built with Node.js, Firebase, or other backend solutions)
 
+
+## Setup and Installation
+
+1. **Clone the repository**:
+
+   ```
+   git clone https://github.com/DriZy/Package-Tracker.git
+   cd frontend
+    ```
+2. **Install dependencies:**:
+
+   ```
+   npm install
+   ```
+   
+3. **Set up environment variables**:
+
+   Modify the environment variables in the `frontend/src/environment.ts` file and add the following environment variables:
+
+   ```
+   API_URL=http://localhost:3000/api
+   WEBSOCKET_URL=ws://localhost:3000
+    ```
+4. **Start the development server**:
+   ```
+   npm start
+   ```
+5. **Build the production app**:
+   ```
+    npm run build
+    ```
+6. **Docker Setup**:
+7. **Build the Docker image**:
+   ```
+   docker build -t image_name .
+   ```
+8. **Run the container**:
+   ```
+    docker run -p 4200 image_name
+    ```
+The app will now be available at http://localhost:4200.
+
+**Production Build**:
+
+To create a production build, run:
+
+```
+npm run build
+```
+The build artifacts will be stored in the dist/ directory. You can deploy these files using any static hosting service (e.g., Firebase Hosting, Netlify).
+
+**Docker Setup:**
+
+To run the application in Docker:
+
+Build the Docker image:
+
+```
+docker build -t image_name .
+```
+Run the container:
+
+```
+docker run -p 8080:80 image_name
+```
+The app will now be available at http://localhost:8080.
+
 ## Project Structure
-
 The project is structured as follows:
-
-
 
 ## Technologies Used
 - **Node.js:** Server-side JavaScript runtime.
