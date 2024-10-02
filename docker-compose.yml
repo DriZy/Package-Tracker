@@ -16,18 +16,18 @@ services:
       - app-network
     command: npm run dev
 
-#  frontend:
-#    build: ./frontend
-#    volumes:
-#      - ./frontend:/app
-#    ports:
-#      - ${APP_PORT}:${APP_PORT}
-#    depends_on:
-#      - backend
-#    environment:
-#      NODE_ENV: development
-#    networks:
-#      - app-network
+  frontend:
+    build: ./frontend
+    volumes:
+      - ./frontend:/app
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    depends_on:
+      - backend
+    environment:
+      NODE_ENV: development
+    networks:
+      - app-network
 
 
   mongodb:
