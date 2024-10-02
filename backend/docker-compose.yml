@@ -15,20 +15,6 @@ services:
       - app-network
     command: npm run dev
 
-  frontend:
-    build: ./frontend
-    volumes:
-      - ./frontend:/app
-    ports:
-      - ${APP_PORT}:${APP_PORT}
-    depends_on:
-      - backend
-    environment:
-      NODE_ENV: development
-    networks:
-      - app-network
-
-
   mongodb:
     image: mongo:${MONGO_TAG}
     container_name: ${APP_ID}-mongodb

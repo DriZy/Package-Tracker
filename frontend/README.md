@@ -1,27 +1,143 @@
-# Frontend
+# Package Tracker Frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.6.
+![Package Tracker Screenshot](../package-tracker.png)
 
-## Development server
+This is the frontend of the **Package Tracker** application, built with Angular 18. The application allows users to manage and track deliveries and packages.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Table of Contents
 
-## Code scaffolding
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Installation](#installation)
+  - [Development Setup](#development-setup)
+  - [Production Setup](#production-setup)
+- [Running with Docker](#running-with-docker)
+  - [Development with Docker](#development-with-docker)
+  - [Production with Docker](#production-with-docker)
+- [Scripts](#scripts)
+- [Contributing](#contributing)
+- [License](#license)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Features
 
-## Build
+- Create, view, update, and delete packages and deliveries.
+- Track the status of packages in real-time.
+- Driver and admin dashboards.
+- Role-based authentication (Admin, Driver, Customer).
+- WebSocket support for live updates on package status.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Technologies Used
 
-## Running unit tests
+- **Angular 18**: Framework for building the frontend.
+- **SCSS**: CSS pre-processor for enhanced styling.
+- **Leaflet**: Library for interactive maps.
+- **Docker**: For containerizing the app.
+- **Nginx**: Web server for serving production builds.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Installation
 
-## Running end-to-end tests
+### Development Setup
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+1. **Clone the repository**:
+    ```bash
+    git clone https://github.com/DriZy/Package-Tracker.git
+    cd frontend
+    ```
 
-## Further help
+2. **Install dependencies**:
+   Make sure you have Node.js and npm installed. Then run:
+    ```bash
+    npm install
+    ```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+3. **Run the development server**:
+    ```bash
+    npm start
+    ```
+   The app will be available at `http://localhost:4200`.
+
+4. **Environment Configuration**:
+   Ensure you have the correct API endpoint set in your environment variables. You can configure this in `src/environments/environment.ts`:
+    ```typescript
+    export const environment = {
+      production: false,
+      apiUrl: 'http://localhost:3000/api'
+    };
+    ```
+
+### Production Setup
+
+1. **Build the app**:
+    ```bash
+    npm run build
+    ```
+   This will create a `dist` folder with the production-ready application.
+
+2. **Serve the app**:
+   You can use a web server like **Nginx** or **Apache** to serve the production files located in the `dist` folder.
+
+   Example for Nginx:
+    ```bash
+    server {
+      listen 80;
+      server_name yourdomain.com;
+
+      location / {
+        root /path/to/your/app/dist/frontend;
+        try_files $uri $uri/ /index.html;
+      }
+    }
+    ```
+
+## Running with Docker
+
+You can run the application in both development and production environments using Docker.
+
+### Development with Docker
+
+1. **Build the Docker image for development**:
+    ```bash
+    docker build -t package-tracker-frontend-dev --target development .
+    ```
+
+2. **Run the development server**:
+    ```bash
+    docker run -p 4200:4200 package-tracker-frontend-dev
+    ```
+
+3. The app will be available at `http://localhost:4200`.
+
+### Production with Docker
+
+1. **Build the Docker image for production**:
+    ```bash
+    docker build -t package-tracker-frontend-prod --target production .
+    ```
+
+2. **Run the production server**:
+    ```bash
+    docker run -p 80:80 package-tracker-frontend-prod
+    ```
+
+3. The app will be available at `http://localhost`.
+
+## Scripts
+
+- `npm start`: Runs the Angular app in development mode.
+- `npm run build`: Builds the app for production.
+- `npm run test`: Runs the unit tests.
+- `npm run lint`: Lints the code for errors.
+
+## Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository.
+2. Create a new feature branch (`git checkout -b feature-branch`).
+3. Commit your changes (`git commit -m 'Add some feature'`).
+4. Push to the branch (`git push origin feature-branch`).
+5. Open a pull request.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
