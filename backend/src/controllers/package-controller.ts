@@ -1,12 +1,26 @@
 import { Request, Response } from 'express';
-import { PackageStore } from '../models/package-model';
+import {Package, PackageStore} from '../models/package-model';
 import io from '../app';
+import {Delivery} from "../models/delivery-model";
 
 const store = new PackageStore();
 
 export const indexController = async (req: Request, res: Response) => {
     try {
-        const packages = await store.index();
+        const filters = req.query as Partial<Package>;
+
+        const isEmptyFilters = Object.values(filters).every(value => value === "");
+
+        if (isEmptyFilters || Object.keys(filters).length === 0) {
+            const allPackages = await store.index();
+            return res.status(200).json(allPackages);
+        }
+
+        const orQuery = Object.entries(filters)
+            .filter(([_, value]) => value !== "")
+            .map(([key, value]) => ({ [key]: { $regex: value, $options: 'i' } })); // Case-insensitive regex
+        // @ts-ignore
+        const packages = await store.index({ $or: orQuery });
         res.status(200).json(packages);
     } catch (err: Error | any) {
         console.error(err);
@@ -51,6 +65,7 @@ export const updateController = async (req: Request, res: Response) => {
         res.status(400).json({ message: 'Bad Request', error: err.message });
     }
 };
+
 
 export const destroyController = async (req: Request, res: Response) => {
     try {

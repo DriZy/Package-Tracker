@@ -71,6 +71,9 @@ export class PackageComponent implements OnInit {
     }
   }
 
+
+
+
   onLocationSelected(location: { lat: number; lng: number }, isFrom: boolean): void {
     if (isFrom) {
       this.package.from_location = location;

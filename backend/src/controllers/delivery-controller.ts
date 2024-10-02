@@ -40,15 +40,14 @@ export const createController = async (req: Request, res: Response) => {
 
 export const updateController = async (req: Request, res: Response) => {
     try {
-        const updatedDelivery = await store.update(req.params.id, req.body);
-        if (!updatedDelivery) {
-            return res.status(404).json({ message: 'Delivery not found' });
+        const updatedPackage = await store.update(req.params.id, req.body);
+        if (!updatedPackage) {
+            return res.status(404).json({ message: 'Package not found' });
         }
-        io.emit('delivery_updated', { event: 'delivery_updated', delivery: updatedDelivery });
-        res.status(200).json(updatedDelivery);
+        res.status(200).json(updatedPackage);
     } catch (err: Error | any) {
-        console.error('Error updating delivery:', err);
-        res.status(400).json({ message: 'Error updating delivery', error: err.message });
+        console.error(err);
+        res.status(400).json({ message: 'Bad Request', error: err.message });
     }
 };
 

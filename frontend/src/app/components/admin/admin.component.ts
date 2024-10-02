@@ -50,8 +50,9 @@ export class AdminComponent implements OnInit {
     this.router.navigate([`/admin/create-delivery`]);
   }
 
-  showDeleteModal(packageId: string) {
-    this.packageToDelete = packageId;
+
+  showDeleteModal(id:{package_id: string, delivery_id: string}) {
+    this.packageToDelete = id.package_id;
     this.showModal = true;
   }
 

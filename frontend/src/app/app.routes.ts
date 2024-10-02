@@ -15,7 +15,7 @@ export const routes: Routes = [
   { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
   { path: 'admin/create-package', component: PackageComponent, canActivate: [AuthGuard] },
   { path: 'admin/create-delivery', component: DeliveryComponent, canActivate: [AuthGuard] },
-  { path: 'admin/package/:id/edit', component: PackageComponent, canActivate: [AuthGuard] },
+  { path: 'admin/packages/:id/edit', component: PackageComponent, canActivate: [AuthGuard] },
   { path: 'admin/deliveries/:id/edit', component: DeliveryComponent, canActivate: [AuthGuard] },
   { path: 'driver', component: DriverComponent, canActivate: [AuthGuard] },
   { path: 'tracker', component: TrackerComponent, canActivate: [AuthGuard] },

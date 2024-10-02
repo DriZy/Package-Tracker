@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import {DeliveryStatus} from "../../common/enums";
 import {MapComponent} from "../map/map.component";
+import {Package} from "../../models/package.model";
 
 @Component({
   standalone: true,
@@ -25,6 +26,7 @@ export class DeliveryComponent implements OnInit {
   };
   isEditMode = false;
   deliveryStatusEnum = DeliveryStatus;
+  packages: Package[] = [];
 
   constructor(
     private apiService: ApiService,
@@ -64,6 +66,19 @@ export class DeliveryComponent implements OnInit {
             .then(r => console.log('Delivery created successfully!'));
         });
     }
+  }
+
+  searchPackages(searchTerm: string) {
+    console.log("My search term is: ", searchTerm);
+    this.apiService.getPackages({
+      description: searchTerm,
+      status: searchTerm,
+      from_name: searchTerm,
+      to_name: searchTerm,
+    }).subscribe((data) => {
+      console.log('Packages:', data);
+      this.packages = data;
+    });
   }
 
   startLocationUpdates() {

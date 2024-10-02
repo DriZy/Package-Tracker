@@ -16,14 +16,14 @@
       </thead>
       <tbody>
       <tr *ngFor="let package of packages">
-        <td>{{ package.package_id }}</td>
+        <td>{{ package._id }}</td>
         <td>{{ package.description }}</td>
         <td>{{ package.from_name }}</td>
         <td>{{ package.to_name }}</td>
         <td>{{ package.status }}</td>
         <td>
-          <button (click)="editPackage(package.package_id)">Edit</button>
-          <button class="delete" (click)="showDeleteModal(package.package_id)">Delete</button>
+          <button (click)="editPackage(package._id)">Edit</button>
+          <button class="delete" (click)="showDeleteModal(package._id)">Delete</button>
         </td>
       </tr>
       </tbody>

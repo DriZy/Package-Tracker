@@ -1,5 +1,6 @@
 import mongoose, { Document, Model } from 'mongoose';
 import {DeliveryStatus, PackageStatus} from "../common/enums";
+import {Delivery} from "./delivery-model";
 
 
 interface Dimensions {
@@ -34,15 +35,16 @@ const packageSchema = new mongoose.Schema<Package>({
     to_name: { type: String, required: true },
     to_address: { type: String, required: true },
     status: { type: String, enum: Object.values(PackageStatus), default: PackageStatus.Created },
-    from_location: { type: Object, required: true },
-    to_location: { type: Object, required: true }
+    from_location: { type: Object, required: false },
+    to_location: { type: Object, required: false }
 });
 
 const PackageModel: Model<Package> = mongoose.model('Package', packageSchema);
 
 export class PackageStore {
-    async index(): Promise<Package[]> {
-        return PackageModel.find();
+    async index(filters: Partial<Package> = {}): Promise<Package[]> {
+        // @ts-ignore
+        return PackageModel.find(filters);
     }
 
     async show(id: string): Promise<Package | null> {
@@ -57,6 +59,7 @@ export class PackageStore {
     async update(id: string, packageData: Partial<Package>): Promise<Package | null> {
         return PackageModel.findByIdAndUpdate(id, packageData, {new: true});
     }
+
 
     async delete(id: string): Promise<Package | null> {
         return PackageModel.findByIdAndDelete(id);

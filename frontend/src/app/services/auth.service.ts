@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Router } from '@angular/router';
 import {environment} from "../../environments/environment";
 
@@ -7,11 +7,15 @@ import {environment} from "../../environments/environment";
 export class AuthService {
   private tokenKey = 'authToken';
   private roleKey = 'userRole';
-
+  private getHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+  }
   constructor(private http: HttpClient, private router: Router) {}
 
   signup(credentials: { username: string; password: string; role: string }) {
-    return this.http.post(`${environment.apiBaseUrl}/users/signup`, credentials)
+    return this.http.post(`${environment.apiBaseUrl}/users/signup`, credentials, {headers: this.getHeaders()})
       .subscribe((response: any) => {
         this.storeUserCredentials(response.token,  response.user.role);
         this.redirectUserByRole( response.user.role);
@@ -19,7 +23,7 @@ export class AuthService {
   }
 
   login(credentials: { username: string; password: string }) {
-    return this.http.post(`${environment.apiBaseUrl}/users/login`, credentials)
+    return this.http.post(`${environment.apiBaseUrl}/users/login`, credentials, {headers: this.getHeaders()})
       .subscribe((response: any) => {
         this.storeUserCredentials(response.token, response.user.role);
         this.redirectUserByRole(response.user.role);
@@ -50,7 +54,7 @@ export class AuthService {
     return localStorage.getItem(this.roleKey);
   }
 
-  logout() {
+  logOut() {
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.roleKey);
     this.router.navigate(['/login']);
