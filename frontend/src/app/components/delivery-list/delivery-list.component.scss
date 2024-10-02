@@ -1,0 +1,114 @@
+.delivery-list {
+  max-width: 96%;
+  margin: 0 auto;
+  padding: 20px;
+  //background-color: #f9f9f9;
+  //border-radius: 8px;
+  //box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+  }
+
+  .create-button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto 20px;
+
+    &:hover {
+      background-color: #218838;
+    }
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+    }
+
+    thead {
+      background-color: #007bff;
+      color: white;
+
+      th {
+        font-weight: bold;
+        font-size: 1.1rem;
+      }
+    }
+
+    tbody {
+      tr {
+        &:nth-child(even) {
+          background-color: #f2f2f2;
+        }
+
+        &:hover {
+          background-color: #e9ecef;
+        }
+
+        td {
+          border-bottom: 1px solid #ddd;
+        }
+      }
+    }
+
+    button {
+      padding: 8px 15px;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border: none;
+      margin-right: 10px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+
+    // Styles for action buttons
+    button:nth-child(1) {
+      background-color: #007bff;
+      color: white;
+
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+
+    button:nth-child(2) {
+      background-color: #ffc107;
+      color: white;
+
+      &:hover {
+        background-color: #e0a800;
+      }
+    }
+
+    button:nth-child(3) {
+      background-color: #dc3545;
+      color: white;
+
+      &:hover {
+        background-color: #c82333;
+      }
+    }
+  }
+}

@@ -1,0 +1,191 @@
+
+.driver {
+  max-width: 100%;
+  margin: 20px;
+  padding: 20px;
+  //background-color: #f9f9f9; // Light background
+  //border: 1px solid #ddd;
+  //border-radius: 8px;
+  //box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  .form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .input-container {
+      display: block;
+      width: 70%;
+      input {
+        width: 100%; // Full width
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc; // Light gray border
+        border-radius: 4px;
+        font-size: 16px;
+
+        &:focus {
+          border-color: #007bff; // Blue on focus
+          outline: none; // Remove default outline
+        }
+      }
+    }
+
+    button {
+      width: 25%;
+    }
+
+  }
+
+ .location-update-section{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  button {
+    padding: 12px;
+    background-color: #28a745; // Green for status updates
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #218838; // Darker green on hover
+    }
+
+    &.delete {
+      background-color: #dc3545; // Red for delete action
+
+      &:hover {
+        background-color: #c82333; // Darker red on hover
+      }
+    }
+  }
+
+  h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+  }
+
+
+
+  .delivery-details {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .text-content {
+      width: 40%;
+    }
+
+    .delivery-map {
+      width: 40%;
+    }
+    .status-update-section{
+      width: 10%;
+      display: block;
+      button {
+        width: 100%;
+        margin: 10px auto;
+        padding: 12px;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        &:disabled {
+          cursor: not-allowed;
+          background-color: #cccccc;
+        }
+
+        &.picked-up-button {
+          background-color: #007bff; // Blue for "Picked Up"
+          &:hover {
+            background-color: #0056b3;
+          }
+        }
+
+        &.in-transit-button {
+          background-color: #ffa500; // Orange for "In Transit"
+          &:hover {
+            background-color: #cc8400;
+          }
+        }
+
+        &.delivered-button {
+          background-color: #28a745; // Green for "Delivered"
+          &:hover {
+            background-color: #218838;
+          }
+        }
+
+        &.failed-button {
+          background-color: #dc3545; // Red for "Failed"
+          &:hover {
+            background-color: #c82333;
+          }
+        }
+      }
+    }
+  }
+
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Black background with transparency */
+  }
+
+  .modal.show {
+    display: block; /* Show the modal when needed */
+  }
+
+  .modal-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 40%; /* Set width for the modal */
+    border-radius: 10px;
+  }
+
+  .modal-header {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .modal-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+
+  .proceed-button {
+    background-color: red;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+  }
+
+  .cancel-button {
+    background-color: gray;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+  }
+
+}

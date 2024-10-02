@@ -1,0 +1,12 @@
+<div class="login-container">
+  <h2 class="login-title">Login</h2>
+  <form (ngSubmit)="login()" #loginForm="ngForm">
+    <input type="text" placeholder="Username" [(ngModel)]="credentials.username" name="username" required />
+    <input type="password" placeholder="Password" [(ngModel)]="credentials.password" name="password" required />
+    <button type="submit" [disabled]="!loginForm.valid">Login</button>
+  </form>
+
+  <div class="switch-link">
+    <a (click)="navigateToSignup()">Don't have an account? Register here</a>
+  </div>
+</div>

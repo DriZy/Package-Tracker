@@ -1,0 +1,36 @@
+<div class="tracker">
+  <h2>Track Your Package</h2>
+  <div class="tracker-search">
+    <input class="tracker-input" [(ngModel)]="packageId" placeholder="Enter Package ID" />
+    <button (click)="trackPackage()">Track Package</button>
+  </div>
+  <div class="tracker-content">
+    <div class="text-content">
+      <div *ngIf="packageDetails">
+        <h3>Package Details</h3>
+        <p><strong>Description:</strong> {{ packageDetails.description }}</p>
+        <p><strong>Status:</strong> {{ status }}</p>
+      </div>
+      <div *ngIf="deliveryDetails.length > 0">
+        <h3>Delivery Details</h3>
+        <table>
+          <thead>
+          <tr>
+            <th>Delivery ID</th>
+            <th>Status</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let delivery of deliveryDetails">
+            <td>{{ delivery.delivery_id }}</td>
+            <td>{{ delivery.status }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="tracker-map">
+      <app-map class="map" [location]="{lat: 0, lng: 0}" (locationOutput)="onLocationSelected($event)"></app-map>
+    </div>
+  </div>
+</div>

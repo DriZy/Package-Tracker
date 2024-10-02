@@ -1,0 +1,43 @@
+version: '3.8'
+services:
+  backend:
+#    build: ./backend
+    image: "package-tracker-backend"
+    container_name: ${APP_ID}-backend
+    ports:
+      - ${NODE_APP_PORT}:${NODE_APP_PORT}
+    environment:
+      NODE_ENV: development
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - mongodb
+    networks:
+      - app-network
+    command: npm run dev
+
+#  frontend:
+#    build: ./frontend
+#    volumes:
+#      - ./frontend:/app
+#    ports:
+#      - ${APP_PORT}:${APP_PORT}
+#    depends_on:
+#      - backend
+#    environment:
+#      NODE_ENV: development
+#    networks:
+#      - app-network
+
+
+  mongodb:
+    image: mongo:${MONGO_TAG}
+    container_name: ${APP_ID}-mongodb
+    ports:
+      - ${MONGO_PORT}:${MONGO_PORT}
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

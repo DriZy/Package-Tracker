@@ -1,0 +1,44 @@
+<div class="driver">
+  <h2>Driver Dashboard</h2>
+
+  <!-- Form to load delivery details -->
+  <div class="form">
+    <div class="input-container">
+      <label for="deliveryId">Enter Delivery ID:</label>
+      <input id="deliveryId" [(ngModel)]="deliveryId" placeholder="Delivery ID" />
+    </div>
+    <button (click)="loadDelivery()">Load Delivery</button>
+  </div>
+
+  <!-- Delivery Details -->
+  <div class="delivery-details" *ngIf="deliveryDetails">
+    <div class="text-content">
+      <h3>Delivery Details</h3>
+      <p><strong>Delivery ID:</strong> {{ deliveryDetails.delivery_id }}</p>
+      <p><strong>Package ID:</strong> {{ deliveryDetails.package_id }}</p>
+      <p><strong>Status:</strong> {{ deliveryDetails.status }}</p>
+
+      <!-- Package Details (Assuming package details are fetched with the delivery) -->
+      <div *ngIf="packageDetails">
+        <h4>Package Details</h4>
+        <p><strong>Description:</strong> {{ packageDetails.description }}</p>
+        <p><strong>Weight:</strong> {{ packageDetails.weight }} kg</p>
+        <p><strong>Dimensions:</strong> {{ packageDetails.dimensions.width }} x {{ packageDetails.dimensions.height }} x {{ packageDetails.dimensions.depth }} cm</p>
+        <p><strong>From:</strong> {{ packageDetails.from_name }}</p>
+        <p><strong>To:</strong> {{ packageDetails.to_name }}</p>
+      </div>
+
+    </div>
+
+    <div class="delivery-map">
+      <app-map class="map" [location]="deliveryDetails.location" (locationOutput)="onLocationSelected($event)"></app-map>
+    </div>
+
+    <div class="status-update-section">
+      <button class="picked-up-button" (click)="updateStatus(DeliveryStatus.PickedUp)" [disabled]="!buttonStatus.pickedUp">Picked Up</button>
+      <button class="in-transit-button" (click)="updateStatus(DeliveryStatus.InTransit)" [disabled]="!buttonStatus.inTransit">In Transit</button>
+      <button class="delivered-button" (click)="updateStatus(DeliveryStatus.Delivered)" [disabled]="!buttonStatus.delivered">Delivered</button>
+      <button class="failed-button" (click)="updateStatus(DeliveryStatus.Failed)" [disabled]="!buttonStatus.failed">Failed</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+<div class="delivery-create">
+  <h2>Create Delivery</h2>
+  <form class="delivery-form" (ngSubmit)="onSubmit()">
+    <div class="fields-area">
+      <label>Package ID:</label>
+      <input [(ngModel)]="delivery.package_id" name="package_id" (ngModelChange)="searchPackages($event)" required list="packageSuggestions" />
+      <datalist id="packageSuggestions">
+        <option *ngFor="let package of packages" [value]="package._id">{{ package.description }}</option>
+      </datalist>
+
+      <label>Status:</label>
+      <select [(ngModel)]="delivery.status" name="status" required>
+        <option *ngFor="let status of deliveryStatusEnum | keyvalue" [value]="status.value">
+          {{ status.value }}
+        </option>
+      </select>
+
+      <div *ngIf="isEditMode">
+        <label>Pickup Time:</label>
+        <input type="date" [(ngModel)]="delivery.pickup_time" name="pickup_time" required />
+
+        <label>Start Time:</label>
+        <input type="date" [(ngModel)]="delivery.start_time" name="start_time" required />
+
+        <label>End Time:</label>
+        <input type="date" [(ngModel)]="delivery.end_time" name="end_time" />
+      </div>
+
+    </div>
+
+    <button class="create-delivery" type="submit">{{ isEditMode ? 'Update Delivery' : 'Create Delivery' }}</button>
+  </form>
+</div>

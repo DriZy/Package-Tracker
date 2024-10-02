@@ -1,0 +1,55 @@
+<div class="package-create">
+  <h2>Create Package</h2>
+  <form  class="package-form" (ngSubmit)="onSubmit()">
+    <div class="fields-area">
+      <label>From Name:</label>
+      <input [(ngModel)]="package.from_name" name="from_name" required />
+
+      <label>To Name:</label>
+      <input [(ngModel)]="package.to_name" name="to_name" required />
+
+      <label>Weight (kgs):</label>
+      <input type="number" [(ngModel)]="package.weight" name="weight" required />
+
+      <div class="dimension-fields">
+        <div>
+          <label>Width (m):</label>
+          <input type="number" [(ngModel)]="package.dimensions.width" name="width" />
+        </div>
+
+        <div>
+          <label>Height (m):</label>
+          <input type="number" [(ngModel)]="package.dimensions.height" name="height" />
+        </div>
+
+        <div>
+          <label>Depth (m):</label>
+          <input type="number" [(ngModel)]="package.dimensions.depth" name="depth" />
+        </div>
+      </div>
+
+     <label>Pickup Address:</label>
+      <input [(ngModel)]="package.from_address" name="height" />
+
+      <label>Destination Address:</label>
+      <input [(ngModel)]="package.to_address" name="depth" />
+
+      <label>Status:</label>
+      <select class="status-field" [(ngModel)]="package.status" name="status" required>
+        <option *ngFor="let status of packageStatusEnum | keyvalue" [value]="status.value">
+          {{ status.value }}
+        </option>
+      </select>
+
+      <label>Description:</label>
+      <input [(ngModel)]="package.description" name="description" required />
+
+<!--      <label>From Location:</label>-->
+<!--      <app-map class="map" [location]="{lat: 0, lng: 0}" (locationOutput)="onLocationSelected($event)"></app-map>-->
+
+<!--      <label>To Location:</label>-->
+<!--      <app-map class="map" [location]="{lat: 0, lng: 0}" (locationOutput)="onLocationSelected($event)"></app-map>-->
+    </div>
+    <button class="create-package" type="submit">{{ isEditMode ? 'Update Package' : 'Create Package' }}</button>
+  </form>
+</div>
